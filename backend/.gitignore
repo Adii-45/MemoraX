@@ -21,3 +21,6 @@ coverage
 # IDE / Editor
 .vscode/
 .idea/
+
+# File uploads (runtime data)
+uploads/
