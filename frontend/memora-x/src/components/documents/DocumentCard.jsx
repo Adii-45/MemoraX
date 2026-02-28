@@ -23,7 +23,7 @@ const DocumentCard = ({ document, onDelete }) => {
   const navigate = useNavigate();
 
   const handleNavigate = () => {
-    navigate(`/documents/${document.id}`);
+    navigate(`/documents/${document._id}`);
   };
 
   const handleDelete = (e) => {
@@ -98,7 +98,7 @@ const DocumentCard = ({ document, onDelete }) => {
     </div>
 
     {/* Hover Indicator */}
-    <div className="absolute insert-0 rounded-2xl bg-linear-to-br from-emerald-500/50 to-teal-500/0 group-hover:from-emerald-500/5 transition-all duration-300 pointer-events-none"
+    <div className="absolute inset-0 rounded-2xl bg-linear-to-br from-emerald-500/50 to-teal-500/0 group-hover:from-emerald-500/5 transition-all duration-300 pointer-events-none"
     ></div>
   </div>;
 };

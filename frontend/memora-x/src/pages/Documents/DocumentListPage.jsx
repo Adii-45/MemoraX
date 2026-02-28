@@ -25,8 +25,8 @@ const DocumentListPage = () => {
 
   const fetchDocuments = async () => {
     try {
-      const data = await documentService.getDocuments();
-      setDocuments(data);
+      const response = await documentService.getDocuments();
+      setDocuments(response.data);
     } catch (error) {
       toast.error('Failed to fetch documents');
       console.error(error);
@@ -82,11 +82,11 @@ const DocumentListPage = () => {
     if (!selectedDoc) return;
     setDeleting(true);
     try {
-      await documentService.deleteDocument(selectedDoc.id);
+      await documentService.deleteDocument(selectedDoc._id);
       toast.success(`'${selectedDoc.title}' deleted.`);
       setIsDeleteModalOpen(false);
       setSelectedDoc(null);
-      setDocuments(documents.filter((d) => d.id !== selectedDoc.id));
+      setDocuments(documents.filter((d) => d._id !== selectedDoc._id));
     } catch (error) {
       toast.error(error.message || 'Failed to delete document');
     } finally {
@@ -135,7 +135,7 @@ const DocumentListPage = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
           {documents.map((doc) => (
             <DocumentCard
-              key={doc.id}
+              key={doc._id}
               document={doc}
               onDelete={handleDeleteRequest}
             />
@@ -171,7 +171,7 @@ const DocumentListPage = () => {
       </div>
 
       {isUploadModalOpen && (
-        <div className="fixed insert-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm">
         <div className="relative w-full max-w-lg bg-white/95 backdrop-blur-xl border border-slate-200/60 rounded-2xl shadow-2xl shadow-slate-900/20 p-8">
           {/* {Close button} */}
           <button
@@ -268,7 +268,7 @@ const DocumentListPage = () => {
       )}
 
       {isDeleteModalOpen && (
-        <div className="fixed insert-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm">
         <div className="relative w-full max-w-md bg-white/95 backdrop-blur-xl border border-slate-200/60 rounded-2xl shadow-2xl shadow-slate-900/20 p-8">
           {/* {Close button} */}
           <button
