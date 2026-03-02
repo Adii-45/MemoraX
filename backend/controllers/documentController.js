@@ -1,3 +1,11 @@
+// import Document from "../models/Document.js";
+// import Flashcard from "../models/Flashcard.js";
+// import Quiz from "../models/Quiz.js";
+// import { extractTextFromPDF } from "../utils/pdfParser.js";
+// import { chunkText } from "../utils/textChunker.js";
+// import fs from "fs/promises";
+// import mongoose from "mongoose";
+
 import Document from "../models/Document.js";
 import Flashcard from "../models/Flashcard.js";
 import Quiz from "../models/Quiz.js";
@@ -5,6 +13,11 @@ import { extractTextFromPDF } from "../utils/pdfParser.js";
 import { chunkText } from "../utils/textChunker.js";
 import fs from "fs/promises";
 import mongoose from "mongoose";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // @desc    Upload PDF document
 // @route   POST /api/documents/upload
@@ -33,8 +46,10 @@ export const uploadDocument = async (req, res, next) => {
     }
 
     // 3️⃣ Build public file URL (IMPORTANT FIX)
-    const baseUrl = `${req.protocol}://${req.get("host")}`;
-    const fileUrl = `${baseUrl}/uploads/documents/${req.file.filename}`;
+    // const baseUrl = `${req.protocol}://${req.get("host")}`;
+    // const fileUrl = `${baseUrl}/uploads/documents/${req.file.filename}`;
+    const fileUrl = `/uploads/documents/${req.file.filename}`;
+    console.log("PDF URL:", fileUrl);
 
     // 4️⃣ Create document entry
     const document = await Document.create({
@@ -195,27 +210,28 @@ export const getDocument = async (req, res, next) => {
 export const deleteDocument = async (req, res, next) => {
   try {
     const document = await Document.findOne({
-        _id: req.params.id,
-        userId: req.user._id,
+      _id: req.params.id,
+      userId: req.user.id,
     });
 
     if (!document) {
-        return res.status(404).json({
-            success: false,
-            error: "Document not found",
-            statusCode: 404
-        });
+      return res.status(404).json({
+        success: false,
+        error: "Document not found",
+        statusCode: 404,
+      });
     }
 
-    // Delete file from filepath
-    await fs.unlink(document.filePath).catch(() => {});
+    const relativePath = document.filePath.replace(/^\/+/, "");
+    const absolutePath = path.join(__dirname, "..", relativePath);
 
-    // Delete document
+    await fs.unlink(absolutePath).catch(() => {});
+
     await document.deleteOne();
 
     res.status(200).json({
-        success: true,
-        message: "Document deleted successfully"
+      success: true,
+      message: "Document deleted successfully",
     });
   } catch (error) {
     next(error);
