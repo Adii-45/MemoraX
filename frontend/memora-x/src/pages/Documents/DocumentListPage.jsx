@@ -47,36 +47,35 @@ const DocumentListPage = () => {
   };
 
   const handleUpload = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  if (!uploadFile || !uploadTitle) {
-    toast.error('Please provide a title and select a file');
-    return;
-  }
+    if (!uploadFile || !uploadTitle) {
+      toast.error("Please provide a title and select a file");
+      return;
+    }
 
-  setUploading(true);
+    setUploading(true);
 
-  const formData = new FormData();
-  formData.append("file", uploadFile);
-  formData.append("title", uploadTitle);
+    const formData = new FormData();
+    formData.append("file", uploadFile);
+    formData.append("title", uploadTitle);
 
-  try {
-    await documentService.uploadDocument(formData);
+    try {
+      await documentService.uploadDocument(formData);
 
-    toast.success('Document uploaded successfully!');
+      toast.success("Document uploaded successfully!");
 
-    setIsUploadModalOpen(false);
-    setUploadFile(null);
-    setUploadTitle('');
+      setIsUploadModalOpen(false);
+      setUploadFile(null);
+      setUploadTitle("");
 
-    await fetchDocuments();   // ✅ WAIT FOR REFRESH
-
-  } catch (error) {
-    toast.error(error.message || 'Upload failed');
-  } finally {
-    setUploading(false);
-  }
-};
+      await fetchDocuments(); // ✅ WAIT FOR REFRESH
+    } catch (error) {
+      toast.error(error.message || "Upload failed");
+    } finally {
+      setUploading(false);
+    }
+  };
 
   const handleDeleteRequest = (doc) => {
     setSelectedDoc(doc);
@@ -124,13 +123,10 @@ const DocumentListPage = () => {
             <p className="text-sm text-slate-500 mb-6">
               Get started by uploading your first document.
             </p>
-            <button
-              onClick={() => setIsUploadModalOpen(true)}
-              className="inline-flex items-center gap-2 px-6 py-3 bg-linear-to-r from-primary to-primary-dark hover:from-emerald-600 hover:to-teal-600 text-white text-sm font-semibold rounded-xl transition-all duration-200 shadow-lg shadow-emerald-500/25 hover:shadow-xl hover:shadow-emerald-500/30 active:scale-[0.98]"
-            >
+            <Button onClick={() => setIsUploadModalOpen(true)}>
               <Plus className="w-4 h-4" strokeWidth={2.5} />
               Upload Document
-            </button>
+            </Button>
           </div>
         </div>
       );
@@ -324,7 +320,7 @@ const DocumentListPage = () => {
               <button
                 onClick={handleConfirmDelete}
                 disabled={deleting}
-                className="flex-1 h-11 px-4 bg-linear-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white text-sm font-semibold rounded-xl transition-all duration-200 shadow-lg shadow-red-500/25 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98]"
+                className="flex-1 h-11 px-4 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-semibold rounded-xl transition-all duration-200 shadow-lg shadow-red-500/25 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98]"
               >
                 {deleting ? (
                   <span className="flex items-center justify-center gap-2">

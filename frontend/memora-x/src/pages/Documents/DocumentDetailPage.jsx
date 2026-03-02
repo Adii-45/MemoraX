@@ -13,39 +13,42 @@ const DocumentDetailPage = () => {
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("Content");
 
-  // 
-  
+  //
+
   useEffect(() => {
-  const fetchDocumentDetails = async () => {
-    try {
-      const response = await documentService.getDocumentById(id);
+    const fetchDocumentDetails = async () => {
+      try {
+        const response = await documentService.getDocumentById(id);
 
-      // Backend returns { success, data }
-      setDocument(response.data);
+        // Backend returns { success, data }
+        setDocument(response.data);
+      } catch (error) {
+        console.error("ERROR:", error);
+        toast.error("Failed to fetch document details");
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    } catch (error) {
-      console.error("ERROR:", error);
-      toast.error("Failed to fetch document details");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  fetchDocumentDetails();
-}, [id]);
+    fetchDocumentDetails();
+  }, [id]);
 
   // Helper function to get the full PDF URL
   const getPdfUrl = () => {
     if (!document?.filePath) return null;
 
-    const filePath = document.filePath;
-
-    if (filePath.startsWith("http://") || filePath.startsWith("https://")) {
-      return filePath;
+    // If filePath already full URL, return it directly
+    if (
+      document.filePath.startsWith("http://") ||
+      document.filePath.startsWith("https://")
+    ) {
+      return document.filePath;
     }
 
-    const baseUrl = process.env.REACT_APP_API_URL || "http://localhost:8000";
-    return `${baseUrl}${filePath.startsWith("/") ? "" : "/"}${filePath}`;
+    const baseUrl =
+      import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
+
+    return `${baseUrl}${document.filePath}`;
   };
 
   const renderContent = () => {
@@ -105,14 +108,6 @@ const DocumentDetailPage = () => {
     return "renderQuizzesTab";
   };
 
-  const tabs = [
-    { name: "Content", label: "Content", content: renderContent() },
-    { name: "Chat", label: "Chat", content: renderChat() },
-    { name: "AI Actions", label: "AI Actions", content: renderAIActions() },
-    { name: "Flashcards", label: "Flashcards", content: renderFlashcardsTab() },
-    { name: "Quizzes", label: "Quizzes", content: renderQuizzesTab() },
-  ];
-
   if (loading) {
     return <Spinner />;
   }
@@ -121,10 +116,21 @@ const DocumentDetailPage = () => {
     return <div className="text-center p-8">Document not found</div>;
   }
 
+  const tabs = [
+    { name: "Content", label: "Content", content: renderContent() },
+    { name: "Chat", label: "Chat", content: renderChat() },
+    { name: "AI Actions", label: "AI Actions", content: renderAIActions() },
+    { name: "Flashcards", label: "Flashcards", content: renderFlashcardsTab() },
+    { name: "Quizzes", label: "Quizzes", content: renderQuizzesTab() },
+  ];
+
   return (
     <div>
       <div className="mb-4">
-        <Link to="/documents" className="inline-flex items-center gap-2 text-sm text-neutral-600 hover:text-neutral-900 transition-colors">
+        <Link
+          to="/documents"
+          className="inline-flex items-center gap-2 text-sm text-neutral-600 hover:text-neutral-900 transition-colors"
+        >
           <ArrowLeft size={16} />
           Back to Documents
         </Link>
@@ -132,7 +138,7 @@ const DocumentDetailPage = () => {
       <PageHeader title={document.title} />
       <Tabs tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} />
     </div>
-  )
+  );
 };
 
 export default DocumentDetailPage;

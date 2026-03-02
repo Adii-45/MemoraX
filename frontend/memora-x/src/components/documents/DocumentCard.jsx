@@ -45,7 +45,7 @@ const DocumentCard = ({ document, onDelete }) => {
 
           <button
             onClick={handleDelete}
-            className="opacity-0 group-hover:opacity-100 w-8 h-8 fles items-center justify-center text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all duration-200"
+            className="opacity-0 group-hover:opacity-100 w-8 h-8 flex items-center justify-center text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all duration-200"
           >
             <Trash2 className="w-4 h-4" strokeWidth={2} />
           </button>
@@ -74,10 +74,7 @@ const DocumentCard = ({ document, onDelete }) => {
         <div className="flex items-center gap-3">
           {document.flashcardsCount !== undefined && (
             <div className="flex items-center gap-1.5 px-2.5 py-1.5 bg-primary/10 rounded-lg">
-              <BookOpen
-                className="w-3.5 h-3.5 text-primary"
-                strokeWidth={2}
-              />
+              <BookOpen className="w-3.5 h-3.5 text-primary" strokeWidth={2} />
               <span className="text-xs font-semibold text-purple-700">
                 {document.flashcardsCount} Flashcards
               </span>
