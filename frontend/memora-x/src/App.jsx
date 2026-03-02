@@ -20,6 +20,8 @@ import NotFoundPage from "./pages/NotFoundPage";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import { useAuth } from "./context/AuthContext";
 
+import PublicRoute from "./components/auth/PublicRoute";
+
 const App = () => {
   const { isAuthenticated, loading } = useAuth();
 
@@ -41,14 +43,16 @@ const App = () => {
             isAuthenticated ? (
               <Navigate to="/dashboard" replace />
             ) : (
-              <Navigate to="/login" replace />
+              <Navigate to="/register" replace />
             )
           }
         />
 
         {/* PUBLIC ROUTES */}
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
+        <Route element={<PublicRoute />}>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+        </Route>
 
         {/* PROTECTED ROUTES */}
         <Route element={<ProtectedRoute />}>

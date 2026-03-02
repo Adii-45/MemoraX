@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 import authService from "../../services/authService";
 import { BrainCircuit, Mail, Lock, ArrowRight, User } from "lucide-react";
 import toast from "react-hot-toast";
@@ -13,6 +14,7 @@ const RegisterPage = () => {
   const [focusedField, setFocusedField] = useState(null);
 
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,12 +28,20 @@ const RegisterPage = () => {
     setLoading(true);
 
     try {
-      await authService.register(username, email, password);
-      toast.success("Registered successfully! Please login.");
-      navigate("/login");
+      const { user, token } = await authService.register(username, email, password);
+      login(user, token);
+      toast.success("Registered successfully!");
+      navigate("/dashboard");
     } catch (err) {
-      setError(err.message || "Failed to register. Please try again.");
-      toast.error(err.message || "Failed to register.");
+      const errorMessage = err.error || err.message || "Failed to register.";
+      
+      if (errorMessage.includes("already registered") || errorMessage.includes("already taken")) {
+        toast.error("User already exists. Redirecting to login...");
+        setTimeout(() => navigate("/login"), 1500);
+      } else {
+        setError(errorMessage);
+        toast.error(errorMessage);
+      }
     } finally {
       setLoading(false);
     }
