@@ -94,19 +94,19 @@ const DocumentDetailPage = () => {
   };
 
   const renderChat = () => {
-    return <ChatInterface/>;
+    return <ChatInterface/>
   };
 
   const renderAIActions = () => {
-    return "renderAIActions";
+    return <AIActions/>
   };
 
   const renderFlashcardsTab = () => {
-    return "renderFlashcardsTab";
+    return "renderFlashcardsTab"
   };
 
   const renderQuizzesTab = () => {
-    return "renderQuizzesTab";
+    return "renderQuizzesTab"
   };
 
   if (loading) {
