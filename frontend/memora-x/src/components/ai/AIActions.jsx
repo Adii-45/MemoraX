@@ -151,9 +151,7 @@ const AIActions = () => {
         onClose={() => setIsModalOpen(false)}
         title={modalTitle}
       >
-        <div className="max-h-[60vh] overflow-y-auto">
-          <MarkdownRenderer content={modalContent} />
-        </div>
+        <MarkdownRenderer content={modalContent} />
       </Modal>
     </>
   );
