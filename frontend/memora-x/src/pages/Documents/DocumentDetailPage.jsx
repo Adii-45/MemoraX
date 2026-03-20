@@ -8,6 +8,7 @@ import PageHeader from "../../components/common/PageHeader";
 import Tabs from "../../components/common/Tabs";
 import ChatInterface from "../../components/chat/ChatInterface";
 import AIActions from "../../components/ai/AIActions";
+import FlashCardManager from "../../components/flashcards/FlashcardManager"; // ✅ FIXED
 
 const DocumentDetailPage = () => {
   const { id } = useParams();
@@ -15,14 +16,10 @@ const DocumentDetailPage = () => {
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("Content");
 
-  //
-
   useEffect(() => {
     const fetchDocumentDetails = async () => {
       try {
         const response = await documentService.getDocumentById(id);
-
-        // Backend returns { success, data }
         setDocument(response.data);
       } catch (error) {
         console.error("ERROR:", error);
@@ -35,11 +32,9 @@ const DocumentDetailPage = () => {
     fetchDocumentDetails();
   }, [id]);
 
-  // Helper function to get the full PDF URL
   const getPdfUrl = () => {
     if (!document?.filePath) return null;
 
-    // If filePath already full URL, return it directly
     if (
       document.filePath.startsWith("http://") ||
       document.filePath.startsWith("https://")
@@ -54,9 +49,7 @@ const DocumentDetailPage = () => {
   };
 
   const renderContent = () => {
-    if (loading) {
-      return <Spinner />;
-    }
+    if (loading) return <Spinner />;
     if (!document || !document.filePath) {
       return <div className="text-center p-8">PDF not available.</div>;
     }
@@ -79,64 +72,40 @@ const DocumentDetailPage = () => {
             Open in new tab
           </a>
         </div>
-        <div className="bg-gray-100">
-          <iframe
-            src={pdfUrl}
-            className="w-full h-[70vh] bg-white rounded border border-gray-300"
-            title="PDF Viewer"
-            frameBorder="0"
-            style={{
-              colorScheme: "Light",
-            }}
-          />
-        </div>
+        <iframe
+          src={pdfUrl}
+          className="w-full h-[70vh] bg-white"
+          title="PDF Viewer"
+        />
       </div>
     );
   };
 
-  const renderChat = () => {
-    return <ChatInterface/>
-  };
-
-  const renderAIActions = () => {
-    return <AIActions/>
-  };
-
   const renderFlashcardsTab = () => {
-    return <FlashcardManager documentId={id} />
+    return <FlashCardManager documentId={id} />; // ✅ FIXED
   };
-
-  const renderQuizzesTab = () => {
-    return "renderQuizzesTab"
-  };
-
-  if (loading) {
-    return <Spinner />;
-  }
-
-  if (!document) {
-    return <div className="text-center p-8">Document not found</div>;
-  }
 
   const tabs = [
     { name: "Content", label: "Content", content: renderContent() },
-    { name: "Chat", label: "Chat", content: renderChat() },
-    { name: "AI Actions", label: "AI Actions", content: renderAIActions() },
+    { name: "Chat", label: "Chat", content: <ChatInterface /> },
+    { name: "AI Actions", label: "AI Actions", content: <AIActions /> },
     { name: "Flashcards", label: "Flashcards", content: renderFlashcardsTab() },
-    { name: "Quizzes", label: "Quizzes", content: renderQuizzesTab() },
+    { name: "Quizzes", label: "Quizzes", content: "Coming soon..." },
   ];
+
+  if (loading) return <Spinner />;
+  if (!document) return <div className="text-center p-8">Not found</div>;
 
   return (
     <div>
-      <div className="mb-4">
-        <Link
-          to="/documents"
-          className="inline-flex items-center gap-2 text-sm text-neutral-600 hover:text-neutral-900 transition-colors"
-        >
-          <ArrowLeft size={16} />
-          Back to Documents
-        </Link>
-      </div>
+      <Link
+        to="/documents"
+        className="inline-flex items-center gap-2 text-sm text-neutral-600 hover:text-neutral-900 mb-4"
+      >
+        <ArrowLeft size={16} />
+        Back to Documents
+      </Link>
+
       <PageHeader title={document.title} />
       <Tabs tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} />
     </div>

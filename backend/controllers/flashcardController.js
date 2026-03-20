@@ -152,7 +152,7 @@ export const deleteFlashcardSet = async (req, res, next) => {
         });
     }
 
-    await flashcardSet.remove();
+    await Flashcard.findByIdAndDelete(flashcardSet._id);
 
     res.status(200).json({
         success: true,
