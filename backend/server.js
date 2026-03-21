@@ -26,10 +26,14 @@ const app = express();
 connectDB();
 
 
-// ✅ FIXED CORS (minimal change)
 app.use(
   cors({
-    origin: ["http://localhost:5173"], // abhi ke liye bas ye
+    origin: [
+      "http://localhost:5173",
+      "https://memorax-x-8xq4.vercel.app"
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
   })
 );
