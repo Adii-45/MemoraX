@@ -25,13 +25,11 @@ const app = express();
 // Connect to MongoDB
 connectDB();
 
-app.use(
-  cors({
-    origin: ["http://localhost:5173", "https://memorax-x-8xq4.vercel.app"],
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
+app.use(cors({
+  origin: true,
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));
 
 // Body parser
 app.use(express.json());
