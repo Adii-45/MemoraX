@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Plus, Trash2, Brain } from "lucide-react";
+import { Plus, Trash2, Brain, ArrowLeft } from "lucide-react";
 import toast from "react-hot-toast";
 import moment from "moment";
 
@@ -46,6 +46,27 @@ const FlashCardManager = ({ documentId }) => {
       setGenerating(false);
     }
   };
+
+  const handToggleStar = async (cardId) => {
+    try {
+      await flashcardService.toggleStar(cardId);
+      const updatedSets = flashcardsSets.map((set) => {
+        if (set._id === selectedSet._id) {
+          const updatedCards = set.cards.map((card) => {
+            card._id === cardId ? { ...card, isStarred: !card.isStarred } : card;
+            });
+            return { ...set, cards: updatedCards };
+          }
+          return set;
+          });
+        setFlashcardsSets(updatedSets);
+        setSelectedSet(updatedSets.find((set) => set._id === selectedSet._id));
+        toast.success("Flashcard starred status updated");
+        } catch (error) {
+        toast.error("Failed to update star status");
+        }
+        };
+  }
 
   const handleDeleteRequest = (e, set) => {
     e.stopPropagation();
@@ -123,7 +144,72 @@ const FlashCardManager = ({ documentId }) => {
         </div>
       </div>
 
-      {/* Modal */}
+      const renderFlashcardViewer = () => {
+        const currentCard = selectedSet?.cards[currentCardIndex];
+
+        return (
+          <div className="space-y-8">
+            {/* Back button */}
+            <button
+              onClick={() => setSelectedSet(null)}
+              className="group inline-flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-emerald-600 transition-colors duration-200"
+            >
+              <ArrowLeft
+              className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-200"
+              strokeWidth={2}
+              />
+              Back to Sets
+            </button>
+
+            {/* {Flashcard Display} */}
+            <div className="flex flex-col items-centerspace-y-8">
+              <div className="w-full max-w-2xl">
+                <Flashcard
+                  flashcard={currentCard}
+                  onToogleStar={handleToggleStar}
+                />
+              </div>
+
+              {/* {Navigation Controls} */}
+              <div className="flex items-center gap-6">
+                <button
+                  onClick={handlePreviousCard}
+                  disabled={selectedSet?.cards.length === 1}
+                  className="group flex items-center gap-2 px-5 h-11 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium text-sm rounded-xl transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-slate-100"
+                >
+                  <ChevronLeft
+                    className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform duration-200"
+                    strokeWidth={2.5}
+                  />
+                  Previous
+                </button>
+
+                <div className="px-4 py-2 bg-slate-50 rounded-lg border border-slate-200">
+                  <span className="text-sm font-semibold text-slate-700">
+                    {currentCardIndex + 1}{" "}
+                    <span className="text-slate-400 font-normal">/</span>{""}
+                    {selectedSet.cards.length}
+                  </span>
+                </div>
+
+                <button
+                  onClick={handleNextCard}
+                  disabled={selectedSet.cards.length <= 1}
+                  className="group flex items-center gap-2 px-5 h-11 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium text-sm rounded-xl transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-slate-100"
+                >
+                  Next
+                  <ChevronRight
+                    className="w-4 h-4 group-hover:translate-x-0.5 transition-transform duration-200"
+                    strokeWidth={2.5}
+                  />
+                </button>
+              </div>
+            </div>
+          </div>
+        );
+      };
+
+      {/*Delete Modal */}
       <Modal
         isOpen={isDeleteModalOpen}
         onClose={() => setIsDeleteModalOpen(false)}
