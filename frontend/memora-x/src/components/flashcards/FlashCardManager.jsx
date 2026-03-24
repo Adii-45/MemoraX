@@ -6,15 +6,15 @@ import moment from "moment";
 import flashcardService from "../../services/flashcardService";
 import aiService from "../../services/aiService";
 import Spinner from "../common/Spinner";
-import Modal from "../common/Modal";
 
-// ⚠️ make sure this exists
+// ⚠️ REMOVED Modal import
+
 import Flashcard from "./Flashcard";
 
 const FlashCardManager = ({ documentId }) => {
   const [flashcardsSets, setFlashcardsSets] = useState([]);
   const [selectedSet, setSelectedSet] = useState(null);
-  const [currentCardIndex, setCurrentCardIndex] = useState(0); // ✅ added
+  const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -96,7 +96,6 @@ const FlashCardManager = ({ documentId }) => {
     }
   };
 
-  // ✅ navigation
   const handleNextCard = () => {
     if (!selectedSet) return;
     setCurrentCardIndex((prev) =>
@@ -120,7 +119,7 @@ const FlashCardManager = ({ documentId }) => {
         <button
           onClick={() => {
             setSelectedSet(null);
-            setCurrentCardIndex(0); // reset
+            setCurrentCardIndex(0);
           }}
           className="group inline-flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-emerald-600"
         >
@@ -136,7 +135,6 @@ const FlashCardManager = ({ documentId }) => {
             />
           </div>
 
-          {/* Navigation */}
           <div className="flex gap-4">
             <button
               onClick={handlePreviousCard}
@@ -172,7 +170,7 @@ const FlashCardManager = ({ documentId }) => {
   return (
     <>
       {selectedSet ? (
-        renderFlashcardViewer() // ✅ FIXED: now actually used
+        renderFlashcardViewer()
       ) : (
         <div className="bg-white p-6 rounded-2xl shadow space-y-6">
           <div className="flex justify-between items-center">
@@ -195,7 +193,7 @@ const FlashCardManager = ({ documentId }) => {
                 key={set._id}
                 onClick={() => {
                   setSelectedSet(set);
-                  setCurrentCardIndex(0); // reset
+                  setCurrentCardIndex(0);
                 }}
                 className="border p-4 rounded-xl cursor-pointer hover:shadow"
               >
@@ -222,28 +220,38 @@ const FlashCardManager = ({ documentId }) => {
         </div>
       )}
 
-      <Modal
-        isOpen={isDeleteModalOpen}
-        onClose={() => setIsDeleteModalOpen(false)}
-        title="Delete Set"
-      >
-        <p className="text-sm text-gray-500">
-          Are you sure you want to delete this set?
-        </p>
+      {/* ✅ NEW DELETE MODAL */}
+      {isDeleteModalOpen && (
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6">
+            
+            <h2 className="text-lg font-semibold text-gray-800 mb-2">
+              Delete Flashcard Set
+            </h2>
 
-        <div className="flex justify-end gap-2 mt-4">
-          <button onClick={() => setIsDeleteModalOpen(false)}>
-            Cancel
-          </button>
+            <p className="text-sm text-gray-500 mb-4">
+              Are you sure you want to delete this set? This action cannot be undone.
+            </p>
 
-          <button
-            onClick={handleConfirmDelete}
-            className="bg-red-500 text-white px-4 py-2 rounded"
-          >
-            {deleting ? "Deleting..." : "Delete"}
-          </button>
+            <div className="flex justify-end gap-2">
+              <button
+                onClick={() => setIsDeleteModalOpen(false)}
+                className="px-4 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-100"
+              >
+                Cancel
+              </button>
+
+              <button
+                onClick={handleConfirmDelete}
+                disabled={deleting}
+                className="px-4 py-2 rounded-lg text-sm bg-red-500 hover:bg-red-600 text-white"
+              >
+                {deleting ? "Deleting..." : "Delete"}
+              </button>
+            </div>
+          </div>
         </div>
-      </Modal>
+      )}
     </>
   );
 };

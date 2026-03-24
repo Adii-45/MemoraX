@@ -9,6 +9,7 @@ import Tabs from "../../components/common/Tabs";
 import ChatInterface from "../../components/chat/ChatInterface";
 import AIActions from "../../components/ai/AIActions";
 import FlashCardManager from "../../components/flashcards/FlashCardManager";
+import QuizManager from "../../components/quizzes/QuizManager";
 
 const DocumentDetailPage = () => {
   const { id } = useParams();
@@ -107,15 +108,16 @@ const DocumentDetailPage = () => {
     return <FlashCardManager documentId={id} />; // ✅ FIXED
   };
 
-  const renderQuizzesTab = () => {};
-  return <QuizManager documentId={id} />;
+  const renderQuizzesTab = () => {
+    return <QuizManager documentId={id} />;
+  };
 
   const tabs = [
     { name: "Content", label: "Content", content: renderContent() },
     { name: "Chat", label: "Chat", content: <ChatInterface /> },
     { name: "AI Actions", label: "AI Actions", content: <AIActions /> },
     { name: "Flashcards", label: "Flashcards", content: renderFlashcardsTab() },
-    { name: "Quizzes", label: "Quizzes", content: "Coming soon..." },
+    { name: "Quizzes", label: "Quizzes", content: renderQuizzesTab() },
   ];
 
   if (loading) return <Spinner />;
