@@ -53,9 +53,20 @@ const QuizCard = ({ quiz, onDelete }) => {
       <div className="mt-2 pt-4 border-t border-slate-100">
         {quiz?.userAnswers?.length > 0 ? (
           <Link to={`/quizzes/${quiz._id}/results`}>
-            <button className="group/btn w-full inline-flex items-center justify-center gap-2 h-11 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-sm rounded-xl transition-all duration-200 active:scale-95 cursor-pointer">
+            {/* <button className="group/btn w-full inline-flex items-center justify-center gap-2 h-11 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-sm rounded-xl transition-all duration-200 active:scale-95 cursor-pointer">
               <BarChart2 className="w-4 h-4" strokeWidth={2.5} />
               View Results
+            </button> */}
+            <button className="group w-full relative inline-flex items-center justify-center gap-2 h-11 rounded-xl font-semibold text-sm text-slate-700 bg-gradient-to-r from-slate-100 to-slate-200 hover:from-indigo-500 hover:to-indigo-600 hover:text-white border border-slate-200 hover:border-indigo-500 shadow-sm hover:shadow-md transition-all duration-300 ease-out active:scale-90 overflow-hidden">
+              {/* Glow effect */}
+              <span className="absolute inset-0 bg-white/0 group-hover:bg-white/10 transition duration-300" />
+
+              <BarChart2
+                className="w-4 h-4 transition-transform duration-300 group-hover:scale-110"
+                strokeWidth={2.5}
+              />
+
+              <span className="relative">View Results</span>
             </button>
           </Link>
         ) : (
