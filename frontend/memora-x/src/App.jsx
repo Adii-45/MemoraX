@@ -6,6 +6,7 @@ import {
   Navigate,
 } from "react-router-dom";
 
+import LandingPage from "./pages/LandingPage";
 import RegisterPage from "./pages/Auth/RegisterPage";
 import LoginPage from "./pages/Auth/LoginPage";
 import DashboardPage from "./pages/Dashboard/DashboardPage";
@@ -36,17 +37,8 @@ const App = () => {
   return (
     <Router>
       <Routes>
-        {/* ROOT */}
-        <Route
-          path="/"
-          element={
-            isAuthenticated ? (
-              <Navigate to="/dashboard" replace />
-            ) : (
-              <Navigate to="/register" replace />
-            )
-          }
-        />
+        {/* ROOT - Landing Page */}
+        <Route path="/" element={<LandingPage />} />
 
         {/* PUBLIC ROUTES */}
         <Route element={<PublicRoute />}>
