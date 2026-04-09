@@ -15,14 +15,15 @@ const Button = ({
   const variantStyles = {
     primary:
       "bg-gradient-to-r from-primary to-primary-dark text-white " +
-      "shadow-lg shadow-primary/25 " +
+      "shadow-[0_8px_30px_rgb(0,0,0,0.12)] " +
       "hover:from-primary-dark hover:to-primary " +
-      "hover:shadow-xl hover:shadow-primary/30",
+      "hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)]",
 
-    secondary: "bg-slate-100 text-slate-700 hover:bg-slate-200",
+    secondary:
+      "bg-transparent text-neutral-300 border border-neutral-700 hover:bg-neutral-800 hover:text-white",
 
     outline:
-      "bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 hover:border-slate-300",
+      "bg-transparent border border-neutral-700 text-neutral-300 hover:bg-neutral-800 hover:text-white",
   };
 
   const sizeStyles = {

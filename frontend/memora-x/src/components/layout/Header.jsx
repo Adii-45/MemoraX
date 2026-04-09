@@ -5,12 +5,12 @@ import {Bell, User, Menu} from 'lucide-react';
 const Header = ({toggleSidebar}) => {
   const { user } = useAuth();
 
-  return <header className="sticky top-0 z-40 w-full h-16 bg-white border-b border-slate-200">
+  return <header className="sticky top-0 z-40 w-full h-16 bg-neutral-950/80 backdrop-blur-md border-b border-neutral-800">
       <div className="flex items-center justify-between h-full px-6">
         {/* Mobile Menu Button */}
         <button
            onClick={toggleSidebar}
-           className="md:hidden inline-flex items-center justify-center w-10 h-10 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-xl transition-all duration-200"
+           className="md:hidden inline-flex items-center justify-center w-10 h-10 text-neutral-400 hover:text-white hover:bg-neutral-800 rounded-xl transition-all duration-200"
            aria-label="Toggle sidebar"
         >
            <Menu size={24} />
@@ -20,23 +20,23 @@ const Header = ({toggleSidebar}) => {
 
         <div className="flex items-center gap-3">
 
-          <button className="relative inline-flex items-center justify-center w-10 h-10 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-xl transition-all duration-200 group">
+          <button className="relative inline-flex items-center justify-center w-10 h-10 text-neutral-400 hover:text-white hover:bg-neutral-800 rounded-xl transition-all duration-200 group">
             <Bell size={20} strokeWidth={2} className="group-hover:scale-110 transition-transform duration-200" />
 
-            <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-primary rounded-full ring-2 ring-white "></span>
+            <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-primary rounded-full ring-2 ring-neutral-950 "></span>
           </button>
 
           {/* User Profile */}
-          <div className="flex items-center gap-3 pl-3 border-l border-slate-200/60">
-            <div className="flex items-center gap-3 px-3 py-1.5 rounded-xl hover:bg-slate-50 transition-colors duration-200 cursor-pointer group">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary to-[#1E3EDC] flex items-center justify-center text-white shadow-md shadow-primary/20group-hover:shadow-lg group-hover:shadow-primary/30 transition-all duration-200">
+          <div className="flex items-center gap-3 pl-3 border-l border-neutral-800/60">
+            <div className="flex items-center gap-3 px-3 py-1.5 rounded-xl hover:bg-neutral-900 transition-colors duration-200 cursor-pointer group">
+              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary to-[#1E3EDC] flex items-center justify-center text-white transition-all duration-200">
                 <User size={18} strokeWidth={2.5} />
               </div>
               <div>
-                <p className="text-sm font-semibold text-slate-900">
+                <p className="text-sm font-semibold text-white">
                   {user?.name || 'User'}
                 </p>
-                <p className="text-xs text-slate-500">
+                <p className="text-xs text-neutral-400">
                   {user?.email || 'user@example.com'}
                 </p>
               </div>

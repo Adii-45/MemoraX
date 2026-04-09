@@ -25,13 +25,13 @@ const FlashcardSetCard = ({ flashcardSet, onDelete }) => {
 
   return (
     <div
-      className="group relative bg-white/80 backdrop-blur-xl border-2 border-slate-200 hover:border-primary rounded-2xl p-6 cursor-pointer transition-all duration-200 hover:shadow-lg hover:shadow-primary/10 flex flex-col justify-between"
+      className="group relative bg-neutral-900 border border-neutral-800 hover:border-primary/40 rounded-2xl p-6 cursor-pointer transition-all duration-200 flex flex-col justify-between"
       onClick={handleStudyNow}
     >
       {/* 🗑 DELETE BUTTON */}
       <button
         onClick={handleDeleteClick}
-        className="absolute top-4 right-4 p-2.5 rounded-lg bg-red-50 hover:bg-red-100 text-red-500 hover:text-red-600 transition-all"
+        className="absolute top-4 right-4 p-2.5 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-400 hover:text-red-300 transition-all"
       >
         <Trash2 size={16} />
       </button>
@@ -44,11 +44,10 @@ const FlashcardSetCard = ({ flashcardSet, onDelete }) => {
           </div>
 
           <div className="flex-1 min-w-0">
-            <h3 className="text-base font-semibold text-slate-900 line-clamp-2 mb-1">
+            <h3 className="text-base font-semibold text-white line-clamp-2 mb-1">
               {flashcardSet?.documentId?.title || "Untitled"}
             </h3>
-
-            <p className="text-sm text-slate-500">
+            <p className="text-sm text-neutral-500">
               {moment(flashcardSet.createdAt).fromNow()}
             </p>
           </div>
@@ -56,8 +55,8 @@ const FlashcardSetCard = ({ flashcardSet, onDelete }) => {
 
         {/* Stats */}
         <div className="flex items-center gap-3 pt-2">
-          <div className="px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg">
-            <span className="text-sm font-semibold text-slate-700">
+          <div className="px-3 py-1.5 bg-neutral-800 border border-neutral-700 rounded-lg">
+            <span className="text-sm font-semibold text-neutral-300">
               {totalCards} {totalCards === 1 ? "Card" : "Cards"}
             </span>
           </div>
@@ -82,7 +81,7 @@ const FlashcardSetCard = ({ flashcardSet, onDelete }) => {
               </span>
             </div>
 
-            <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
+            <div className="h-2 bg-neutral-800 rounded-full overflow-hidden">
               <div
                 className="h-full bg-gradient-to-r from-primary to-primary-dark"
                 style={{ width: `${progressPercentage}%` }}
@@ -93,7 +92,7 @@ const FlashcardSetCard = ({ flashcardSet, onDelete }) => {
       </div>
 
       {/* Button */}
-      <div className="mt-6 pt-4 border-t border-slate-100">
+      <div className="mt-6 pt-4 border-t border-neutral-800">
         <button
           onClick={(e) => {
             e.stopPropagation();

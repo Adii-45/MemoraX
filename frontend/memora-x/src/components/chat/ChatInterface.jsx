@@ -97,10 +97,10 @@ const ChatInterface = () => {
         )}
 
         <div
-          className={`max-w-xl p-4 rounded-2xl shadow-sm ${
+          className={`max-w-xl p-4 rounded-2xl ${
             isUser
               ? "bg-gradient-to-br from-blue-500 to-[#1E3EDC] text-white"
-              : "bg-white border border-slate-200 text-slate-800"
+              : "bg-neutral-900 border border-neutral-800 text-neutral-200"
           }`}
         >
           {isUser ? (
@@ -111,7 +111,7 @@ const ChatInterface = () => {
         </div>
 
         {isUser && (
-          <div className="w-9 h-9 rounded-xl bg-slate-200 flex items-center justify-center text-slate-700 font-semibold shrink-0">
+          <div className="w-9 h-9 rounded-xl bg-neutral-800 flex items-center justify-center text-neutral-200 font-semibold shrink-0">
             {user?.username?.charAt(0).toUpperCase() || "U"}
           </div>
         )}
@@ -128,12 +128,12 @@ const ChatInterface = () => {
   }
 
   return (
-    <div className="flex flex-col h-[70vh] w-full bg-white border border-slate-200 rounded-2xl shadow-sm">
+    <div className="flex flex-col h-[70vh] w-full bg-neutral-900 border border-neutral-800 rounded-2xl">
       <div className="flex-1 p-6 pb-20 overflow-y-auto">
         {history.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full text-center">
             <MessageSquare className="w-8 h-8 text-slate-400 mb-2" />
-            <p className="text-sm text-slate-500">
+            <p className="text-sm text-neutral-500">
               Ask something about this document
             </p>
           </div>
@@ -144,21 +144,21 @@ const ChatInterface = () => {
         {loading && (
           <div className="flex items-center gap-3 my-4">
             <Sparkles className="w-4 h-4 text-primary" />
-            <span className="text-sm text-slate-500">Thinking...</span>
+            <span className="text-sm text-neutral-500">Thinking...</span>
           </div>
         )}
 
         <div ref={messagesEndRef} />
       </div>
 
-      <div className="p-4 border-t border-slate-200">
+      <div className="p-4 border-t border-neutral-800">
         <form onSubmit={handleSendMessage} className="flex gap-3">
           <input
             type="text"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             placeholder="Ask a follow-up question"
-            className="flex-1 h-11 px-4 border border-slate-200 rounded-xl focus:outline-none"
+            className="flex-1 h-11 px-4 border border-neutral-800 bg-neutral-950 text-white placeholder-neutral-600 rounded-xl focus:outline-none focus:border-neutral-600"
           />
 
           <button

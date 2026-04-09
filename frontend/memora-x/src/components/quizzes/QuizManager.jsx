@@ -105,7 +105,7 @@ const QuizManager = ({ documentId }) => {
   };
 
   return (
-    <div className="bg-white border border-neutral-200 rounded-lg p-6">
+    <div className="bg-neutral-900 border border-neutral-800 rounded-lg p-6">
       <div className="flex justify-end gap-2 mb-4">
         <Button
           onClick={() => {
@@ -121,15 +121,15 @@ const QuizManager = ({ documentId }) => {
 
       {/* ✅ GENERATE MODAL */}
       {isGenerateModalOpen && (
-        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 animate-fadeIn">
-            <h2 className="text-xl font-semibold text-gray-800 mb-4">
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50">
+          <div className="bg-neutral-900 border border-neutral-800 rounded-2xl shadow-2xl w-full max-w-md p-6 animate-fadeIn">
+            <h2 className="text-xl font-semibold text-white mb-4">
               Generate Quiz
             </h2>
 
             <form onSubmit={handleGenerateQuiz} className="space-y-4">
               <div>
-                <label className="text-sm text-gray-600 mb-1 block">
+                <label className="text-sm text-neutral-400 mb-1 block">
                   Number of Questions
                 </label>
                 <input
@@ -138,7 +138,7 @@ const QuizManager = ({ documentId }) => {
                   onChange={(e) => setNumQuestions(e.target.value)}
                   min={1}
                   max={20}
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                  className="w-full border border-neutral-800 bg-neutral-950 text-white rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-neutral-600"
                 />
               </div>
 
@@ -146,7 +146,7 @@ const QuizManager = ({ documentId }) => {
                 <button
                   type="button"
                   onClick={() => setIsGenerateModalOpen(false)}
-                  className="px-4 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-100"
+                  className="px-4 py-2 rounded-lg text-sm text-neutral-400 hover:text-white hover:bg-neutral-800"
                 >
                   Cancel
                 </button>
@@ -160,20 +160,19 @@ const QuizManager = ({ documentId }) => {
 
       {/* ✅ DELETE MODAL (ADDED) */}
       {isDeleteModalOpen && (
-        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6">
-            <h2 className="text-lg font-semibold mb-2 text-gray-800">
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50">
+          <div className="bg-neutral-900 border border-neutral-800 rounded-2xl shadow-2xl w-full max-w-md p-6">
+            <h2 className="text-lg font-semibold mb-2 text-white">
               Delete Quiz
             </h2>
-
-            <p className="text-sm text-gray-600 mb-6">
+            <p className="text-sm text-neutral-400 mb-6">
               Are you sure you want to delete this quiz? This action cannot be undone.
             </p>
 
             <div className="flex justify-end gap-2">
               <button
                 onClick={() => setIsDeleteModalOpen(false)}
-                className="px-4 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-100"
+                className="px-4 py-2 rounded-lg text-sm text-neutral-400 hover:text-white hover:bg-neutral-800"
               >
                 Cancel
               </button>

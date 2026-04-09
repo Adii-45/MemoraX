@@ -6,7 +6,7 @@ import { dracula } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 const MarkdownRenderer = ({ content }) => {
   return (
-    <div className="text-slate-700 text-sm leading-relaxed">
+    <div className="text-neutral-300 text-sm leading-relaxed">
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         components={{
@@ -22,7 +22,7 @@ const MarkdownRenderer = ({ content }) => {
           strong: ({ node, ...props }) => <strong className="font-semibold" {...props} />,
           em: ({ node, ...props }) => <em className="italic" {...props} />,
           blockquote: ({ node, ...props }) => (
-            <blockquote className="border-l-4 border-neutral-300 pl-4 italic text-neutral-600 my-4" {...props} />
+            <blockquote className="border-l-4 border-neutral-700 pl-4 italic text-neutral-400 my-4" {...props} />
           ),
           code: ({ node, inline, className, children, ...props }) => {
             const match = /language-(\w+)/.exec(className || "");
@@ -36,12 +36,12 @@ const MarkdownRenderer = ({ content }) => {
                 {String(children).replace(/\n$/, "")}
               </SyntaxHighlighter>
             ) : (
-              <code className="bg-neutral-100 p-1 rounded font-mono text-sm" {...props}>
+              <code className="bg-neutral-800 text-neutral-100 p-1 rounded font-mono text-sm" {...props}>
                 {children}
               </code>
             );
           },
-          pre: ({ node, ...props }) => <pre className="bg-neutral-100 text-white p-3 rounded-md overflow-x-auto font-mono text-sm my-4" {...props} />,
+          pre: ({ node, ...props }) => <pre className="bg-neutral-900 text-neutral-100 p-3 rounded-md overflow-x-auto font-mono text-sm my-4" {...props} />,
         }}
       >
         {content}

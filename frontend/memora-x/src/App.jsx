@@ -28,8 +28,8 @@ const App = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-screen">
-        <p>Loading...</p>
+      <div className="flex items-center justify-center h-screen bg-neutral-950">
+        <p className="text-neutral-300">Loading...</p>
       </div>
     );
   }

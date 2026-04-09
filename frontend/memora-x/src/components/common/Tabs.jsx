@@ -4,7 +4,7 @@ const Tabs = ({ tabs, activeTab, setActiveTab }) => {
   return (
     <div className="w-full">
       {/* Tabs Header */}
-      <div className="relative border-b-2 border-slate-100">
+      <div className="relative border-b border-neutral-800">
         <nav className="flex gap-2">
           {tabs.map((tab) => (
             <button
@@ -12,18 +12,18 @@ const Tabs = ({ tabs, activeTab, setActiveTab }) => {
               onClick={() => setActiveTab(tab.name)}
               className={`relative pb-4 px-2 md:px-6 text-sm font-semibold transition-all duration-200 ${
                 activeTab === tab.name
-                  ? "text-primary"
-                  : "text-slate-600 hover:text-slate-900"
+                  ? "text-white"
+                  : "text-neutral-400 hover:text-neutral-200"
               }`}
             >
               <span className="relative z-10">{tab.label}</span>
 
               {activeTab === tab.name && (
-                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-primary to-[#1E3EDC] rounded-full shadow-lg shadow-primary/30" />
+                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-white rounded-full" />
               )}
 
               {activeTab === tab.name && (
-                <div className="absolute inset-0 bg-gradient-to-b from-primary to-transparent rounded-t-xl -z-10" />
+                <div className="absolute inset-0 bg-gradient-to-b from-white/10 to-transparent rounded-t-xl -z-10" />
               )}
             </button>
           ))}

@@ -28,7 +28,7 @@ const DashboardPage = () => {
   if (!dashboardData?.overview) {
     return (
       <div className="flex items-center justify-center h-full">
-        <p className="text-slate-500 text-sm">
+        <p className="text-neutral-500 text-sm">
           No dashboard data available
         </p>
       </div>
@@ -58,10 +58,10 @@ const DashboardPage = () => {
 
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-semibold text-slate-900">
+        <h1 className="text-3xl font-semibold text-white">
           Dashboard
         </h1>
-        <p className="text-slate-500 mt-1 text-sm">
+        <p className="text-neutral-400 mt-1 text-sm">
           Track your learning progress and insights
         </p>
       </div>
@@ -71,18 +71,17 @@ const DashboardPage = () => {
         {stats.map((stat, index) => (
           <div
             key={index}
-            className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition"
+            className="bg-neutral-900 border border-neutral-800 rounded-2xl p-6 transition"
           >
             <div className="flex items-center justify-between mb-4">
-              <span className="text-xs font-semibold text-slate-500 uppercase tracking-wide">
+              <span className="text-xs font-semibold text-neutral-400 uppercase tracking-wide">
                 {stat.label}
               </span>
-              <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-primary to-primary-dark flex items-center justify-center shadow-md">
+              <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-primary to-primary-dark flex items-center justify-center shadow-[0_8px_30px_rgb(0,0,0,0.12)]">
                 <stat.icon className="w-5 h-5 text-white" />
               </div>
             </div>
-
-            <div className="text-3xl font-semibold text-slate-900">
+            <div className="text-3xl font-semibold text-white">
               {stat.value}
             </div>
           </div>
@@ -90,12 +89,12 @@ const DashboardPage = () => {
       </div>
 
       {/* Recent Activity */}
-      <div className="bg-white border border-slate-200 rounded-2xl p-8 shadow-sm">
+      <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-8">
         <div className="flex items-center gap-3 mb-6">
-          <div className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center">
-            <Clock className="w-5 h-5 text-slate-600" />
+          <div className="w-10 h-10 rounded-xl bg-neutral-800 flex items-center justify-center">
+            <Clock className="w-5 h-5 text-neutral-400" />
           </div>
-          <h3 className="text-xl font-semibold text-slate-900">
+          <h3 className="text-xl font-semibold text-white">
             Recent Activity
           </h3>
         </div>
@@ -125,18 +124,18 @@ const DashboardPage = () => {
               .map((activity, index) => (
                 <div
                   key={activity.id || index}
-                  className="flex items-center justify-between p-4 rounded-xl border border-slate-200 hover:bg-slate-50 transition"
+                  className="flex items-center justify-between p-4 rounded-xl border border-neutral-800 hover:bg-neutral-800/50 transition"
                 >
                   <div>
-                    <p className="text-sm font-medium text-slate-900">
+                    <p className="text-sm font-medium text-white">
                       {activity.type === "document"
                         ? "Accessed Document: "
                         : "Attempted Quiz: "}
-                      <span className="text-slate-600">
+                      <span className="text-neutral-300">
                         {activity.description}
                       </span>
                     </p>
-                    <p className="text-xs text-slate-500 mt-1">
+                    <p className="text-xs text-neutral-500 mt-1">
                       {activity.timestamp
                         ? new Date(activity.timestamp).toLocaleString()
                         : "No date available"}
@@ -153,7 +152,7 @@ const DashboardPage = () => {
               ))}
           </div>
         ) : (
-          <p className="text-sm text-slate-500 text-center py-6">
+          <p className="text-sm text-neutral-500 text-center py-6">
             No recent activity yet.
           </p>
         )}
