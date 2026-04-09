@@ -103,19 +103,19 @@ const Modal = ({ isOpen, onClose, title, children }) => {
 
       {/* BACKDROP */}
       <div
-        className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+        className="absolute inset-0 bg-black/70 backdrop-blur-sm"
         onClick={onClose}
       />
 
       {/* MODAL */}
-      <div className="relative w-full max-w-2xl bg-white rounded-2xl shadow-2xl p-6 z-10 animate-in fade-in zoom-in-95 duration-200">
+      <div className="relative w-full max-w-2xl bg-neutral-900 border border-neutral-800 rounded-2xl shadow-2xl p-6 z-10 animate-in fade-in zoom-in-95 duration-200">
 
         {/* MODAL UI HEADER — close button lives here, NOT captured in PDF */}
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-semibold text-slate-900">{title}</h3>
+          <h3 className="text-lg font-semibold text-white">{title}</h3>
           <button
             onClick={onClose}
-            className="text-slate-400 hover:text-slate-600"
+            className="text-neutral-400 hover:text-white"
           >
             ✕
           </button>
@@ -125,32 +125,32 @@ const Modal = ({ isOpen, onClose, title, children }) => {
         <div ref={scrollRef} className="max-h-[60vh] overflow-y-auto pr-2">
 
           {/* PRINT AREA — clean document layout, captured for PDF */}
-          <div ref={printAreaRef} className="bg-white px-8 py-5">
+          <div ref={printAreaRef} className="bg-neutral-950 px-8 py-5 rounded-xl border border-neutral-800">
 
             {/* PDF DOCUMENT HEADER — replaces modal chrome in the exported file */}
-            <div className="mb-6 pb-4 border-b-2 border-slate-200">
-              <p className="text-[10px] font-semibold uppercase tracking-widest text-slate-400 mb-1">
+            <div className="mb-6 pb-4 border-b border-neutral-800">
+              <p className="text-[10px] font-semibold uppercase tracking-widest text-neutral-500 mb-1">
                 MemoraX
               </p>
-              <h1 className="text-2xl font-bold text-slate-900 leading-tight">{title}</h1>
-              <p className="text-xs text-slate-400 mt-1.5">Generated on {generatedDate}</p>
+              <h1 className="text-2xl font-bold text-white leading-tight">{title}</h1>
+              <p className="text-xs text-neutral-500 mt-1.5">Generated on {generatedDate}</p>
             </div>
 
             {/* DOCUMENT CONTENT — typography overrides for clean PDF rendering */}
             <div
               className="
-                text-slate-700
+                text-neutral-300
                 [&_p]:mb-3 [&_p]:leading-7
-                [&_h1]:text-xl [&_h1]:font-bold [&_h1]:text-slate-900 [&_h1]:mt-6 [&_h1]:mb-3
-                [&_h2]:text-lg [&_h2]:font-bold [&_h2]:text-slate-800 [&_h2]:mt-5 [&_h2]:mb-2
-                [&_h3]:text-base [&_h3]:font-semibold [&_h3]:text-slate-800 [&_h3]:mt-4 [&_h3]:mb-2
+                [&_h1]:text-xl [&_h1]:font-bold [&_h1]:text-white [&_h1]:mt-6 [&_h1]:mb-3
+                [&_h2]:text-lg [&_h2]:font-bold [&_h2]:text-neutral-100 [&_h2]:mt-5 [&_h2]:mb-2
+                [&_h3]:text-base [&_h3]:font-semibold [&_h3]:text-neutral-100 [&_h3]:mt-4 [&_h3]:mb-2
                 [&_ul]:mb-3 [&_ul]:ml-5 [&_ul]:list-disc
                 [&_ol]:mb-3 [&_ol]:ml-5 [&_ol]:list-decimal
                 [&_li]:mb-1.5 [&_li]:leading-6
-                [&_blockquote]:border-l-4 [&_blockquote]:border-indigo-200 [&_blockquote]:pl-4
-                [&_blockquote]:italic [&_blockquote]:text-slate-500 [&_blockquote]:my-4
-                [&_strong]:font-semibold [&_strong]:text-slate-900
-                [&_hr]:my-6 [&_hr]:border-slate-200
+                [&_blockquote]:border-l-4 [&_blockquote]:border-neutral-700 [&_blockquote]:pl-4
+                [&_blockquote]:italic [&_blockquote]:text-neutral-500 [&_blockquote]:my-4
+                [&_strong]:font-semibold [&_strong]:text-white
+                [&_hr]:my-6 [&_hr]:border-neutral-800
               "
             >
               {children}
@@ -160,16 +160,16 @@ const Modal = ({ isOpen, onClose, title, children }) => {
         </div>
 
         {/* FOOTER */}
-        <div className="flex items-center justify-end gap-3 mt-5 pt-4 border-t border-slate-100">
+        <div className="flex items-center justify-end gap-3 mt-5 pt-4 border-t border-neutral-800">
           <button
             onClick={onClose}
-            className="px-4 py-2 text-sm text-slate-500 hover:text-slate-700 transition-colors"
+            className="px-4 py-2 text-sm text-neutral-400 hover:text-white transition-colors"
           >
             Close
           </button>
           <button
             onClick={handleExtractPDF}
-            className="flex items-center gap-2 px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-xl transition-colors shadow-sm"
+            className="flex items-center gap-2 px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-xl transition-colors"
           >
             <Download className="w-4 h-4" />
             Extract as PDF

@@ -89,21 +89,20 @@ const FlashcardsListPage = () => {
 
       {/* ✅ CUSTOM DELETE MODAL */}
       {showConfirm && (
-        <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50">
-          <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6">
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50">
+          <div className="bg-neutral-900 border border-neutral-800 rounded-2xl shadow-xl w-full max-w-md p-6">
             
-            <h2 className="text-lg font-semibold text-slate-900 mb-2">
+            <h2 className="text-lg font-semibold text-white mb-2">
               Delete Flashcard Set
             </h2>
-
-            <p className="text-sm text-slate-600 mb-6">
+            <p className="text-sm text-neutral-400 mb-6">
               Are you sure you want to delete this set? This action cannot be undone.
             </p>
 
             <div className="flex justify-end gap-3">
               <button
                 onClick={() => setShowConfirm(false)}
-                className="px-4 py-2 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-100"
+                className="px-4 py-2 rounded-lg text-sm font-medium text-neutral-400 hover:text-white hover:bg-neutral-800"
               >
                 Cancel
               </button>

@@ -73,11 +73,11 @@ const QuizTakePage = () => {
 
       {/* Progress */}
       <div className="mb-6">
-        <div className="flex justify-between text-sm mb-2">
+        <div className="flex justify-between text-sm mb-2 text-neutral-300">
           <span>Q {currentQuestionIndex + 1} / {quiz.questions.length}</span>
         </div>
 
-        <div className="h-2 bg-slate-200 rounded-full">
+        <div className="h-2 bg-neutral-700 rounded-full">
           <div
             className="h-full bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full"
             style={{ width: `${((currentQuestionIndex + 1) / quiz.questions.length) * 100}%` }}
@@ -86,7 +86,7 @@ const QuizTakePage = () => {
       </div>
 
       {/* Card */}
-      <div className="bg-white p-6 rounded-2xl shadow-xl">
+      <div className="bg-neutral-900 border border-neutral-700 p-6 rounded-2xl shadow-xl">
         <h2 className="text-lg font-semibold mb-6">
           {currentQuestion.question}
         </h2>
@@ -100,8 +100,8 @@ const QuizTakePage = () => {
                 key={index}
                 className={`flex items-center p-4 rounded-xl border cursor-pointer transition ${
                   isSelected
-                    ? "border-indigo-500 bg-indigo-50 shadow-md"
-                    : "border-slate-200 hover:border-indigo-300 hover:bg-slate-50"
+                    ? "border-indigo-500 bg-indigo-500/20 shadow-md"
+                    : "border-neutral-700 hover:border-indigo-500/50 hover:bg-neutral-800"
                 }`}
               >
                 <input
@@ -114,9 +114,9 @@ const QuizTakePage = () => {
                 />
 
                 <div className={`w-5 h-5 rounded-full border mr-3 flex items-center justify-center ${
-                  isSelected ? "bg-indigo-500 border-indigo-500" : ""
+                  isSelected ? "bg-indigo-500 border-indigo-500" : "border-neutral-600"
                 }`}>
-                  {isSelected && <div className="w-2 h-2 bg-white rounded-full" />}
+                  {isSelected && <div className="w-2 h-2 bg-neutral-50 rounded-full" />}
                 </div>
 
                 <span className="flex-1">{option}</span>

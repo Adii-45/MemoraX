@@ -68,15 +68,15 @@ const DocumentDetailPage = () => {
   const renderContent = () => {
     if (loading) return <Spinner />;
     if (!document || !document.filePath) {
-      return <div className="text-center p-8">PDF not available.</div>;
+      return <div className="text-center p-8 text-neutral-400">PDF not available.</div>;
     }
 
     const pdfUrl = document ? getPdfUrl() : null;
 
     return (
-      <div className="bg-white border border-gray-300 rounded-lg overflow-hidden shadow-sm">
-        <div className="flex items-center justify-between p-4 bg-gray-50 border-b border-gray-300">
-          <span className="text-sm font-medium text-gray-700">
+      <div className="bg-neutral-900 border border-neutral-800 rounded-lg overflow-hidden">
+        <div className="flex items-center justify-between p-4 bg-neutral-900/50 border-b border-neutral-800">
+          <span className="text-sm font-medium text-neutral-300">
             Document Viewer
           </span>
           <a
@@ -94,11 +94,11 @@ const DocumentDetailPage = () => {
             src={`https://docs.google.com/gview?url=${encodeURIComponent(
               pdfUrl
             )}&embedded=true`}
-            className="w-full h-[70vh] bg-white"
+            className="w-full h-[70vh] bg-neutral-950"
             title="PDF Viewer"
           />
         ) : (
-          <div className="text-center p-8">PDF not available</div>
+          <div className="text-center p-8 text-neutral-400">PDF not available</div>
         )}
       </div>
     );
@@ -121,13 +121,13 @@ const DocumentDetailPage = () => {
   ];
 
   if (loading) return <Spinner />;
-  if (!document) return <div className="text-center p-8">Not found</div>;
+  if (!document) return <div className="text-center p-8 text-neutral-400">Not found</div>;
 
   return (
     <div>
       <Link
         to="/documents"
-        className="inline-flex items-center gap-2 text-sm text-neutral-600 hover:text-neutral-900 mb-4"
+        className="inline-flex items-center gap-2 text-sm text-neutral-400 hover:text-white mb-4"
       >
         <ArrowLeft size={16} />
         Back to Documents

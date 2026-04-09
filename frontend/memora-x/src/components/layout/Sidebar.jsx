@@ -36,7 +36,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
   return (
     <>
       <div
-        className={`fixed inset-0 bg-black/30 z-40 md:hidden transition-opacity duration-300 ${
+        className={`fixed inset-0 bg-black/70 z-40 md:hidden transition-opacity duration-300 ${
           isSidebarOpen ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
         onClick={toggleSidebar}
@@ -44,17 +44,17 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
       ></div>
 
       <aside
-        className={`fixed md:relative top-0 left-0 md:top-auto md:left-auto h-full w-64 bg-white border-r border-slate-200 flex flex-col z-50 transform transition-transform duration-300 ease-in-out ${
+        className={`fixed md:relative top-0 left-0 md:top-auto md:left-auto h-full w-64 bg-neutral-950 border-r border-neutral-800 flex flex-col z-50 transform transition-transform duration-300 ease-in-out ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
         }`}
       >
         {/* {Logo and Close button for mobile} */}
-        <div className="flex items-center h-16 px-5 border-b border-slate-200">
+        <div className="flex items-center h-16 px-5 border-b border-neutral-800">
           <div className="flex items-center gap-3">
             <div
               className="flex items-center justify-center w-10 h-10 rounded-xl
                     bg-gradient-to-br from-primary to-primary-dark
-                    shadow-md shadow-primary/15"
+                    shadow-[0_8px_30px_rgb(0,0,0,0.12)]"
             >
               <BrainCircuit
                 className="text-white"
@@ -63,7 +63,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
               />
             </div>
 
-            <h1 className="text-lg font-semibold tracking-tight">
+            <h1 className="text-lg font-semibold tracking-tight text-white">
               MEMORA-X
             </h1>
           </div>
@@ -79,8 +79,8 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
               className={({ isActive }) =>
                 `group flex items-center gap-3 px-4 py-2.5 text-sm font-semibold rounded-xl transition-all duration-200 ${
                   isActive
-                    ? "bg-gradient-to-r from-primary to-primary-dark text-white shadow-lg shadow-primary/20"
-                    : "text-slate-700 hover:bg-slate-100 hover:text-slate-900"
+                    ? "bg-gradient-to-r from-primary to-primary-dark text-white shadow-[0_8px_30px_rgb(0,0,0,0.12)]"
+                    : "text-neutral-400 hover:bg-neutral-800 hover:text-white"
                 }`
               }
             >
@@ -101,10 +101,10 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
         </nav>
 
         {/* Logout Section */}
-        <div className="px-3 py-4 border-t border-slate-200/60">
+        <div className="px-3 py-4 border-t border-neutral-800/60">
           <button
             onClick={handleLogout}
-            className="group flex items-center gap-3 w-full px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-red-50 hover:text-red-600 rounded-xl transition-200"
+            className="group flex items-center gap-3 w-full px-4 py-2.5 text-sm font-semibold text-neutral-400 hover:bg-neutral-800 hover:text-red-400 rounded-xl transition-200"
           >
             <LogOut
               size={18}

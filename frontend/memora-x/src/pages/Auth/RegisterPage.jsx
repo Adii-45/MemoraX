@@ -48,19 +48,19 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="relative flex items-center justify-center min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50">
-      <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] bg-[length:16px_16px] opacity-30 pointer-events-none" />
+    <div className="relative flex items-center justify-center min-h-screen bg-neutral-900">
+      <div className="absolute inset-0 bg-[radial-gradient(#404040_1px,transparent_1px)] bg-[length:16px_16px] opacity-30 pointer-events-none" />
       <div className="relative w-full max-w-lg px-6">
-        <div className="w-full bg-white/80 backdrop-blur-xl border border-slate-200/60 rounded-3xl shadow-xl shadow-slate-200/50 py-12 px-14">
+        <div className="w-full bg-neutral-900/80 backdrop-blur-xl border border-neutral-700 rounded-3xl shadow-xl shadow-black/50 py-12 px-14">
           {/* Header */}
           <div className="text-center mb-10">
             <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-primary to-[#1E3EDC] shadow-xl shadow-primary/50 mb-6 mt-8">
               <BrainCircuit className="w-7 h-7 text-white" strokeWidth={2} />
             </div>
-            <h1 className="text-2xl font-medium text-slate-900 tracking-tight mb-2">
+            <h1 className="text-2xl font-medium text-white tracking-tight mb-2">
               Create an account
             </h1>
-            <p className="text-slate-500 text-sm">
+            <p className="text-neutral-400 text-sm">
               Start your AI-powered learning experience today!
             </p>
           </div>
@@ -69,7 +69,7 @@ const RegisterPage = () => {
           <div className="space-y-5">
             {/* Username Field */}
             <div className="space-y-2">
-              <label className="block text-xs font-semibold text=slate-700 uppercase tracking-wide">
+              <label className="block text-xs font-semibold text-neutral-300 uppercase tracking-wide">
                 Username
               </label>
               <div className="relative group">
@@ -77,7 +77,7 @@ const RegisterPage = () => {
                   className={`absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none transition-colors duration-200 ${
                     focusedField === "username"
                       ? "text-primary"
-                      : "text-slate-400"
+                      : "text-neutral-400"
                   }`}
                 >
                   <User className="h-5 w-5" strokeWidth={2} />
@@ -89,20 +89,20 @@ const RegisterPage = () => {
                   onFocus={() => setFocusedField("username")}
                   onBlur={() => setFocusedField(null)}
                   placeholder="yourusername"
-                  className="w-full h-12 pl-12 pr-4 border-2 border-slate-200 rounded-xl bg-slate-50/50 text-slate-900 placeholder-slate-400 text-sm font-medium transition-all duration-200 focus:outline-none focus:border-primary focus:bg-white focus:shadow-lg focus:shadow-primary/30"
+                  className="w-full h-12 pl-12 pr-4 border-2 border-neutral-600 rounded-xl bg-neutral-800 text-white placeholder-neutral-400 text-sm font-medium transition-all duration-200 focus:outline-none focus:border-primary focus:bg-neutral-800 focus:shadow-lg focus:shadow-primary/30"
                 />
               </div>
             </div>
 
             {/* Email Field */}
             <div className="space-y-2">
-              <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wide">
+              <label className="block text-xs font-semibold text-neutral-300 uppercase tracking-wide">
                 Email
               </label>
               <div className="relative group">
                 <div
                   className={`absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none transition-colors duration-200 ${
-                    focusedField === "email" ? "text-primary" : "text-slate-400"
+                    focusedField === "email" ? "text-primary" : "text-neutral-400"
                   }`}
                 >
                   <Mail className="h-5 w-5" strokeWidth={2} />
@@ -114,14 +114,14 @@ const RegisterPage = () => {
                   onFocus={() => setFocusedField("email")}
                   onBlur={() => setFocusedField(null)}
                   placeholder="you@example.com"
-                  className="w-full h-12 pl-12 pr-4 border-2 border-slate-200 rounded-xl bg-slate-50/50 text-slate-900 placeholder-slate-400 text-sm font-medium transition-all duration-200 focus:outline-none focus:border-primary focus:bg-white focus:shadow-lg focus:shadow-primary/30"
+                  className="w-full h-12 pl-12 pr-4 border-2 border-neutral-600 rounded-xl bg-neutral-800 text-white placeholder-neutral-400 text-sm font-medium transition-all duration-200 focus:outline-none focus:border-primary focus:bg-neutral-800 focus:shadow-lg focus:shadow-primary/30"
                 />
               </div>
             </div>
 
             {/* Password Field */}
             <div className="space-y-2">
-              <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wide">
+              <label className="block text-xs font-semibold text-neutral-300 uppercase tracking-wide">
                 Password
               </label>
               <div className="relative group">
@@ -129,7 +129,7 @@ const RegisterPage = () => {
                   className={`absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none transition-colors duration-200 ${
                     focusedField === "password"
                       ? "text-primary"
-                      : "text-slate-400"
+                      : "text-neutral-400"
                   }`}
                 >
                   <Lock className="h-5 w-5" strokeWidth={2} />
@@ -141,15 +141,15 @@ const RegisterPage = () => {
                   onFocus={() => setFocusedField("password")}
                   onBlur={() => setFocusedField(null)}
                   placeholder="••••••••"
-                  className="w-full h-12 pl-12 pr-4 border-2 border-slate-200 rounded-xl bg-slate-50/50 text-slate-900 placeholder-slate-400 text-sm font-medium transition-all duration-200 focus:outline-none focus:border-primary focus:bg-white focus:shadow-lg focus:shadow-primary/30"
+                  className="w-full h-12 pl-12 pr-4 border-2 border-neutral-600 rounded-xl bg-neutral-800 text-white placeholder-neutral-400 text-sm font-medium transition-all duration-200 focus:outline-none focus:border-primary focus:bg-neutral-800 focus:shadow-lg focus:shadow-primary/30"
                 />
               </div>
             </div>
 
             {/* Error Message */}
             {error && (
-              <div className="rounded-lg bg-red-50 border border-red-200 p-3">
-                <p className="text-xs text-red-600 font-medium text-center">
+              <div className="rounded-lg bg-red-900/30 border border-red-800 p-3">
+                <p className="text-xs text-red-400 font-medium text-center">
                   {error}
                 </p>
               </div>
@@ -182,8 +182,8 @@ const RegisterPage = () => {
           </div>
 
           {/* Footer */}
-          <div className="mt-8 pt-6 border-t border-slate-200/80">
-            <p className="text-center text-sm text-slate-600">
+          <div className="mt-8 pt-6 border-t border-neutral-700">
+            <p className="text-center text-sm text-neutral-400">
               Already have an account?{" "}
               <Link
                 to="/login"
@@ -196,7 +196,7 @@ const RegisterPage = () => {
         </div>
 
         {/* Subtle footer text */}
-        <p className="text-center text-xs text-slate-400 mt-6">
+        <p className="text-center text-xs text-neutral-400 mt-6">
           By continuing, you agree to our Terms and Privacy Policy
         </p>
       </div>

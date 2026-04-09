@@ -121,7 +121,7 @@ const FlashCardManager = ({ documentId }) => {
             setSelectedSet(null);
             setCurrentCardIndex(0);
           }}
-          className="group inline-flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-emerald-600"
+          className="group inline-flex items-center gap-2 text-sm font-medium text-neutral-400 hover:text-white"
         >
           <ArrowLeft className="w-4 h-4" />
           Back to Sets
@@ -138,7 +138,7 @@ const FlashCardManager = ({ documentId }) => {
           <div className="flex gap-4">
             <button
               onClick={handlePreviousCard}
-              className="px-4 py-2 bg-gray-200 rounded"
+              className="px-4 py-2 bg-neutral-800 text-neutral-200 hover:bg-neutral-700 rounded transition-colors"
             >
               Prev
             </button>
@@ -149,7 +149,7 @@ const FlashCardManager = ({ documentId }) => {
 
             <button
               onClick={handleNextCard}
-              className="px-4 py-2 bg-gray-200 rounded"
+              className="px-4 py-2 bg-neutral-800 text-neutral-200 hover:bg-neutral-700 rounded transition-colors"
             >
               Next
             </button>
@@ -172,9 +172,9 @@ const FlashCardManager = ({ documentId }) => {
       {selectedSet ? (
         renderFlashcardViewer()
       ) : (
-        <div className="bg-white p-6 rounded-2xl shadow space-y-6">
+        <div className="bg-neutral-900 border border-neutral-800 p-6 rounded-2xl space-y-6">
           <div className="flex justify-between items-center">
-            <h3 className="text-lg font-semibold">
+            <h3 className="text-lg font-semibold text-white">
               Flashcard Sets ({flashcardsSets.length})
             </h3>
 
@@ -195,7 +195,7 @@ const FlashCardManager = ({ documentId }) => {
                   setSelectedSet(set);
                   setCurrentCardIndex(0);
                 }}
-                className="border p-4 rounded-xl cursor-pointer hover:shadow"
+                className="border border-neutral-800 p-4 rounded-xl cursor-pointer hover:bg-neutral-800/50 transition-colors"
               >
                 <button
                   onClick={(e) => handleDeleteRequest(e, set)}
@@ -204,14 +204,13 @@ const FlashCardManager = ({ documentId }) => {
                   <Trash2 size={16} />
                 </button>
 
-                <Brain className="mb-2" />
+                <Brain className="mb-2 text-neutral-300" />
 
-                <h4 className="font-semibold">Flashcard Set</h4>
-                <p className="text-xs text-gray-500">
+                <h4 className="font-semibold text-white">Flashcard Set</h4>
+                <p className="text-xs text-neutral-500">
                   {moment(set.createdAt).format("MMM D, YYYY")}
                 </p>
-
-                <p className="text-sm mt-2">
+                <p className="text-sm mt-2 text-neutral-300">
                   {set.cards?.length || 0} cards
                 </p>
               </div>
@@ -222,21 +221,20 @@ const FlashCardManager = ({ documentId }) => {
 
       {/* ✅ NEW DELETE MODAL */}
       {isDeleteModalOpen && (
-        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6">
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50">
+          <div className="bg-neutral-900 border border-neutral-800 rounded-2xl shadow-2xl w-full max-w-md p-6">
             
-            <h2 className="text-lg font-semibold text-gray-800 mb-2">
+            <h2 className="text-lg font-semibold text-white mb-2">
               Delete Flashcard Set
             </h2>
-
-            <p className="text-sm text-gray-500 mb-4">
+            <p className="text-sm text-neutral-500 mb-4">
               Are you sure you want to delete this set? This action cannot be undone.
             </p>
 
             <div className="flex justify-end gap-2">
               <button
                 onClick={() => setIsDeleteModalOpen(false)}
-                className="px-4 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-100"
+                className="px-4 py-2 rounded-lg text-sm text-neutral-400 hover:text-white hover:bg-neutral-800"
               >
                 Cancel
               </button>

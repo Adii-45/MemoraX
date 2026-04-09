@@ -151,7 +151,7 @@ const FlashcardPage = () => {
             <ChevronLeft size={16} /> Previous
           </Button>
 
-          <span className="text-sm font-medium">
+          <span className="text-sm font-medium text-neutral-300">
             {currentCardIndex + 1} / {flashcards.length}
           </span>
 
@@ -169,7 +169,7 @@ const FlashcardPage = () => {
       {/* Back */}
       <Link
         to={`/documents/${documentId}`}
-        className="inline-flex items-center gap-2 text-sm text-slate-600 hover:text-slate-900"
+        className="inline-flex items-center gap-2 text-sm text-neutral-400 hover:text-white"
       >
         <ArrowLeft size={16} />
         Back to Document
@@ -217,7 +217,7 @@ const FlashcardPage = () => {
         title="Delete Flashcard Set"
       >
         <div className="p-4">
-          <p className="mb-4 font-medium">
+          <p className="mb-4 font-medium text-neutral-300">
             Are you sure you want to delete this set?
           </p>
 

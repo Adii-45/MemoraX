@@ -51,16 +51,16 @@ const ProfilePage = () => {
       <PageHeader title="Profile Settings" />
 
       {/* Profile Header */}
-      <div className="bg-white border border-neutral-200 rounded-xl p-6 shadow-sm">
+      <div className="bg-neutral-900 border border-neutral-700 rounded-xl p-6 shadow-sm">
         <div className="flex items-center gap-4">
           <div className="w-14 h-14 rounded-full bg-primary text-white flex items-center justify-center text-lg font-semibold">
             {user?.username?.[0] || "U"}
           </div>
           <div>
-            <p className="text-lg font-semibold text-neutral-800">
+            <p className="text-lg font-semibold text-white">
               {user?.username || "Username"}
             </p>
-            <p className="text-sm text-neutral-500">
+            <p className="text-sm text-neutral-400">
               {user?.email || "email@example.com"}
             </p>
           </div>
@@ -68,29 +68,29 @@ const ProfilePage = () => {
       </div>
 
       {/* User Info */}
-      <div className="bg-white border border-neutral-200 rounded-xl p-6 shadow-sm">
+      <div className="bg-neutral-900 border border-neutral-700 rounded-xl p-6 shadow-sm">
         <h3 className="text-lg font-semibold mb-6">User Information</h3>
 
         <div className="space-y-5">
           <div>
-            <label className="text-sm text-neutral-600 mb-1 block">
+            <label className="text-sm text-neutral-400 mb-1 block">
               Username
             </label>
-            <div className="flex items-center gap-2 bg-neutral-50 border rounded-lg px-3 py-2">
-              <User size={16} className="text-neutral-500" />
-              <span className="text-neutral-800">
+            <div className="flex items-center gap-2 bg-neutral-800 border border-neutral-600 rounded-lg px-3 py-2">
+              <User size={16} className="text-neutral-400" />
+              <span className="text-white">
                 {user?.username || "-"}
               </span>
             </div>
           </div>
 
           <div>
-            <label className="text-sm text-neutral-600 mb-1 block">
+            <label className="text-sm text-neutral-400 mb-1 block">
               Email Address
             </label>
-            <div className="flex items-center gap-2 bg-neutral-50 border rounded-lg px-3 py-2">
-              <Mail size={16} className="text-neutral-500" />
-              <span className="text-neutral-800">
+            <div className="flex items-center gap-2 bg-neutral-800 border border-neutral-600 rounded-lg px-3 py-2">
+              <Mail size={16} className="text-neutral-400" />
+              <span className="text-white">
                 {user?.email || "-"}
               </span>
             </div>
@@ -99,7 +99,7 @@ const ProfilePage = () => {
       </div>
 
       {/* Change Password */}
-      <div className="bg-white border border-neutral-200 rounded-xl p-6 shadow-sm">
+      <div className="bg-neutral-900 border border-neutral-700 rounded-xl p-6 shadow-sm">
         <h3 className="text-lg font-semibold mb-6">Change Password</h3>
 
         <form onSubmit={handleChangePassword} className="space-y-5">
@@ -121,21 +121,21 @@ const ProfilePage = () => {
             },
           ].map((field, i) => (
             <div key={i} className="space-y-1">
-              <label className="text-sm font-medium text-neutral-700">
+              <label className="text-sm font-medium text-neutral-300">
                 {field.label}
               </label>
 
               <div className="relative group">
                 <Lock
                   size={16}
-                  className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400 group-focus-within:text-primary transition"
+                  className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-500 group-focus-within:text-primary transition"
                 />
 
                 <input
                   type="password"
                   value={field.value}
                   onChange={(e) => field.set(e.target.value)}
-                  className="w-full pl-10 pr-3 py-2.5 text-sm border border-neutral-300 rounded-lg bg-neutral-50 focus:bg-white focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                  className="w-full pl-10 pr-3 py-2.5 text-sm border border-neutral-600 rounded-lg bg-neutral-800 text-white placeholder-neutral-500 focus:bg-neutral-800 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
                   placeholder={`Enter ${field.label.toLowerCase()}`}
                   required
                 />
@@ -143,7 +143,7 @@ const ProfilePage = () => {
             </div>
           ))}
 
-          <p className="text-xs text-neutral-500">
+          <p className="text-xs text-neutral-400">
             Password should be at least 6 characters.
           </p>
 

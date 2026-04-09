@@ -44,7 +44,7 @@ const QuizResultPage = () => {
   if (!results) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
-        <p className="text-slate-600 text-lg">Quiz results not found.</p>
+        <p className="text-neutral-400 text-lg">Quiz results not found.</p>
       </div>
     );
   }
@@ -76,7 +76,7 @@ const QuizResultPage = () => {
       <div className="mb-6">
         <Link
           to={`/documents/${quiz.document._id}`}
-          className="inline-flex items-center gap-2 text-sm text-slate-600 hover:text-slate-900"
+          className="inline-flex items-center gap-2 text-sm text-neutral-400 hover:text-white"
         >
           <ArrowLeft className="w-4 h-4" />
           Back to Document
@@ -86,10 +86,10 @@ const QuizResultPage = () => {
       <PageHeader title={`${quiz.title || "Quiz"} Results`} />
 
       {/* Score Card */}
-      <div className="bg-white p-8 rounded-2xl shadow mb-8 text-center">
+      <div className="bg-neutral-900 border border-neutral-700 p-8 rounded-2xl shadow mb-8 text-center">
         <Trophy className="w-10 h-10 mx-auto text-indigo-500 mb-4" />
 
-        <p className="text-sm text-slate-500 mb-2">Your Score</p>
+        <p className="text-sm text-neutral-400 mb-2">Your Score</p>
 
         <div
           className={`text-5xl font-bold bg-gradient-to-r ${getScoreColor(
@@ -99,17 +99,17 @@ const QuizResultPage = () => {
           {score}%
         </div>
 
-        <p className="mt-2 text-slate-700">{getScoreMessage(score)}</p>
+        <p className="mt-2 text-neutral-300">{getScoreMessage(score)}</p>
 
         {/* Stats */}
         <div className="flex justify-center gap-4 mt-6 flex-wrap">
-          <div className="px-4 py-2 bg-slate-100 rounded-xl">
+          <div className="px-4 py-2 bg-neutral-800 rounded-xl">
             {totalQuestions} Total
           </div>
-          <div className="px-4 py-2 bg-green-100 rounded-xl text-green-700">
+          <div className="px-4 py-2 bg-green-900/30 rounded-xl text-green-400">
             {correctAnswers} Correct
           </div>
-          <div className="px-4 py-2 bg-red-100 rounded-xl text-red-700">
+          <div className="px-4 py-2 bg-red-900/30 rounded-xl text-red-400">
             {incorrectAnswers} Incorrect
           </div>
         </div>
@@ -118,7 +118,7 @@ const QuizResultPage = () => {
       {/* Review */}
       <div className="space-y-6">
         <div className="flex items-center gap-2">
-          <BookOpen className="w-5 h-5 text-slate-600" />
+          <BookOpen className="w-5 h-5 text-neutral-400" />
           <h3 className="text-lg font-semibold">Questions Review</h3>
         </div>
 
@@ -145,7 +145,7 @@ const QuizResultPage = () => {
           }
 
           return (
-            <div key={index} className="p-5 rounded-2xl bg-white shadow border">
+            <div key={index} className="p-5 rounded-2xl bg-neutral-900 shadow border border-neutral-700">
               <p className="font-semibold mb-3">
                 Q{index + 1}. {result.question}
               </p>
@@ -160,23 +160,23 @@ const QuizResultPage = () => {
                       key={i}
                       className={`p-3 rounded-xl border transition ${
                         isCorrect
-                          ? "bg-green-100 border-green-500"
+                          ? "bg-green-900/30 border-green-500"
                           : isUser
-                          ? "bg-red-100 border-red-500"
-                          : "bg-slate-50 border-slate-200"
+                          ? "bg-red-900/30 border-red-500"
+                          : "bg-neutral-800 border-neutral-700"
                       }`}
                     >
                       <div className="flex items-center justify-between">
                         <span>{option}</span>
 
                         {isCorrect && (
-                          <span className="text-green-600 text-xs font-semibold">
+                          <span className="text-green-400 text-xs font-semibold">
                             Correct Answer
                           </span>
                         )}
 
                         {isUser && !isCorrect && (
-                          <span className="text-red-600 text-xs font-semibold">
+                          <span className="text-red-400 text-xs font-semibold">
                             Your Answer
                           </span>
                         )}

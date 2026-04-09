@@ -79,28 +79,28 @@ const AIActions = () => {
 
   return (
     <>
-      <div className="bg-white border rounded-2xl shadow-lg overflow-hidden">
+      <div className="bg-neutral-900 border border-neutral-800 rounded-2xl overflow-hidden">
         {/* HEADER */}
-        <div className="p-5 border-b flex items-center gap-3">
+        <div className="p-5 border-b border-neutral-800 flex items-center gap-3">
           <div className="w-10 h-10 bg-gradient-to-br from-primary to-primary-dark rounded-xl flex items-center justify-center">
             <Sparkles className="w-5 h-5 text-white" />
           </div>
           <div>
-            <h3 className="font-semibold text-slate-900">AI Assistant</h3>
-            <p className="text-xs text-slate-500">Powered by AI</p>
+            <h3 className="font-semibold text-white">AI Assistant</h3>
+            <p className="text-xs text-neutral-500">Powered by AI</p>
           </div>
         </div>
 
         {/* CONTENT */}
         <div className="p-6 space-y-6">
           {/* SUMMARY */}
-          <div className="flex items-center justify-between p-5 border rounded-xl hover:shadow-md transition">
+          <div className="flex items-center justify-between p-5 border border-neutral-800 rounded-xl hover:bg-neutral-800/50 transition">
             <div>
               <div className="flex items-center gap-2 mb-1">
                 <BookOpen className="w-4 h-4 text-blue-600" />
-                <h4 className="font-semibold">Summarize document</h4>
+                <h4 className="font-semibold text-white">Summarize document</h4>
               </div>
-              <p className="text-sm text-slate-500">
+              <p className="text-sm text-neutral-500">
                 Get a quick summary of the entire document
               </p>
             </div>
@@ -117,11 +117,11 @@ const AIActions = () => {
           {/* EXPLAIN */}
           <form
             onSubmit={handleExplainConcept}
-            className="p-5 border rounded-xl space-y-3"
+            className="p-5 border border-neutral-800 rounded-xl space-y-3"
           >
             <div className="flex items-center gap-2">
               <Lightbulb className="w-4 h-4 text-amber-500" />
-              <h4 className="font-semibold">Explain a concept</h4>
+              <h4 className="font-semibold text-white">Explain a concept</h4>
             </div>
 
             <div className="flex items-center gap-3">
@@ -130,7 +130,7 @@ const AIActions = () => {
                 value={concept}
                 onChange={(e) => setConcept(e.target.value)}
                 placeholder="e.g. React Hooks"
-                className="flex-1 h-11 px-4 border rounded-lg focus:outline-none focus:border-primary"
+                className="flex-1 h-11 px-4 border border-neutral-800 bg-neutral-950 text-white placeholder-neutral-600 rounded-lg focus:outline-none focus:border-neutral-600"
               />
 
               <button

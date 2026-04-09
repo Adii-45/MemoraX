@@ -20,7 +20,7 @@ const Flashcard = ({ flashcard, onToogleStar }) => {
       >
         {/* Front */}
         <div
-          className="absolute inset-0 w-full h-full bg-white/80 backdrop-blur-xl border border-slate-200 rounded-2xl shadow-lg p-8 flex flex-col justify-between"
+          className="absolute inset-0 w-full h-full bg-neutral-900 border border-neutral-800 rounded-2xl p-8 flex flex-col justify-between"
           style={{
             backfaceVisibility: "hidden",
             WebkitBackfaceVisibility: "hidden",
@@ -28,7 +28,7 @@ const Flashcard = ({ flashcard, onToogleStar }) => {
         >
           {/* Top */}
           <div className="flex items-start justify-between">
-            <div className="bg-slate-100 text-[10px] text-slate-600 rounded px-3 py-1 uppercase font-medium">
+            <div className="bg-neutral-800 text-[10px] text-neutral-400 rounded px-3 py-1 uppercase font-medium">
               {flashcard.difficulty || "EASY"}
             </div>
 
@@ -40,7 +40,7 @@ const Flashcard = ({ flashcard, onToogleStar }) => {
               className={`w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-200 ${
                 flashcard.isStarred
                   ? "bg-gradient-to-br from-amber-400 to-yellow-500 text-white shadow-md"
-                  : "bg-slate-100 text-slate-400 hover:bg-slate-200 hover:text-amber-500"
+                  : "bg-neutral-800 text-neutral-500 hover:bg-neutral-700 hover:text-amber-500"
               }`}
             >
               <Star
@@ -53,13 +53,13 @@ const Flashcard = ({ flashcard, onToogleStar }) => {
 
           {/* Question */}
           <div className="flex flex-col items-center justify-center px-4 py-4">
-            <p className="text-lg font-semibold text-slate-900 text-center leading-relaxed">
+            <p className="text-lg font-semibold text-white text-center leading-relaxed">
               {flashcard.question}
             </p>
           </div>
 
           {/* Hint */}
-          <div className="flex items-center justify-center gap-2 text-xs text-slate-400 font-medium">
+          <div className="flex items-center justify-center gap-2 text-xs text-neutral-500 font-medium">
             <RotateCcw className="w-3.5 h-3.5" />
             <span>Click to reveal answer</span>
           </div>
