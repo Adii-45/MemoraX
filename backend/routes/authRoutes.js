@@ -6,8 +6,10 @@ import {
     getProfile,
     updateProfile,
     changePassword,
+    updateProfileImage,
 } from '../controllers/authController.js';
 import protect from "../middleware/auth.js";
+import upload from '../config/multer.js';
 const router = express.Router();
 
 // Validation middleware
@@ -43,5 +45,6 @@ router.post('/login', loginValidation, login);
 router.get('/profile', protect, getProfile);
 router.put('/profile', protect, updateProfile);
 router.post('/change-password', protect, changePassword);
+router.put('/profile-image', protect, upload.single('image'), updateProfileImage);
 
 export default router;

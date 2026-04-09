@@ -207,3 +207,53 @@ export const changePassword = async (req, res, next) => {
     next(error);
   }
 };
+
+// @desc Update user profile image
+// @route PUT /api/auth/profile-image
+// @access Private
+export const updateProfileImage = async (req, res, next) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({
+        success: false,
+        error: "Please upload an image file",
+        statusCode: 400,
+      });
+    }
+
+    import("../config/cloudinary.js").then((cloudinaryModule) => {
+      const cloudinary = cloudinaryModule.default;
+      
+      const stream = cloudinary.uploader.upload_stream(
+        { folder: "profile_pictures" },
+        async (error, result) => {
+          if (error) {
+            return res.status(500).json({ success: false, error: "Cloudinary upload failed" });
+          }
+
+          const user = await User.findById(req.user.id);
+          user.profileImage = result.secure_url;
+          await user.save();
+
+          res.status(200).json({
+            success: true,
+            data: {
+              id: user._id,
+              username: user.username,
+              email: user.email,
+              profileImage: user.profileImage,
+              createdAt: user.createdAt,
+              updatedAt: user.updatedAt,
+            },
+          });
+        }
+      );
+
+      stream.end(req.file.buffer);
+    }).catch(err => {
+      next(err);
+    });
+  } catch (error) {
+    next(error);
+  }
+};

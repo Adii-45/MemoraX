@@ -59,12 +59,30 @@ const changePassword = async (passwords) => {
   }
 };
 
+const changeProfileImage = async (formData) => {
+  try {
+    const response = await axiosInstance.put(
+      "/api/auth/profile-image",
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || { message: "An unknown error occurred" };
+  }
+};
+
 const authService = {
   login,
   register,
   getProfile,
   updateProfile,
   changePassword,
+  changeProfileImage,
 };
 
 export default authService;

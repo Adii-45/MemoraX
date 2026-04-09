@@ -1,18 +1,47 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import PageHeader from "../../components/common/PageHeader";
 import Button from "../../components/common/Button";
-import { User, Mail, Lock } from "lucide-react";
+import { User, Mail, Lock, Camera, Loader2 } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 import authService from "../../services/authService";
 import toast from "react-hot-toast";
 
 const ProfilePage = () => {
-  const { user } = useAuth();
+  const { user, updateUser } = useAuth();
+  
+  const [imageLoading, setImageLoading] = useState(false);
+  const fileInputRef = useRef(null);
 
   const [passwordLoading, setPasswordLoading] = useState(false);
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
+
+  const handleImageChange = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    try {
+      setImageLoading(true);
+      const formData = new FormData();
+      formData.append("image", file);
+
+      const response = await authService.changeProfileImage(formData);
+      
+      if (response.success) {
+        updateUser({ profileImage: response.data.profileImage });
+        toast.success("Profile image updated");
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error(err.error || "Failed to update profile image");
+    } finally {
+      setImageLoading(false);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
+    }
+  };
 
   const handleChangePassword = async (e) => {
     e.preventDefault();
@@ -53,9 +82,39 @@ const ProfilePage = () => {
       {/* Profile Header */}
       <div className="bg-neutral-900 border border-neutral-700 rounded-xl p-6 shadow-sm">
         <div className="flex items-center gap-4">
-          <div className="w-14 h-14 rounded-full bg-primary text-white flex items-center justify-center text-lg font-semibold">
-            {user?.username?.[0] || "U"}
+          <div 
+            className={`relative w-14 h-14 rounded-full flex items-center justify-center text-lg font-semibold overflow-hidden group ${imageLoading ? "cursor-not-allowed opacity-70" : "cursor-pointer"}`}
+            onClick={() => !imageLoading && fileInputRef.current?.click()}
+            title={!imageLoading ? "Change photo" : undefined}
+          >
+            {user?.profileImage ? (
+               <img src={user.profileImage} alt="Profile" className="w-full h-full object-cover" />
+            ) : (
+               <div className="w-full h-full bg-primary text-white flex items-center justify-center">
+                 {user?.username?.[0] || "U"}
+               </div>
+            )}
+            
+            {!imageLoading && (
+              <div className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                <Camera size={16} className="text-white" />
+              </div>
+            )}
+
+            {imageLoading && (
+              <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+                <Loader2 size={16} className="text-white animate-spin" />
+              </div>
+            )}
           </div>
+          <input 
+            type="file"
+            ref={fileInputRef}
+            className="hidden"
+            accept="image/*"
+            onChange={handleImageChange}
+            disabled={imageLoading}
+          />
           <div>
             <p className="text-lg font-semibold text-white">
               {user?.username || "Username"}
