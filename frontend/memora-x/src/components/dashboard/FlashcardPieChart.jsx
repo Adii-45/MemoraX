@@ -7,7 +7,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import { chartTheme, flashcardData } from "./mockData";
+import { chartTheme } from "./chartTheme";
 
 const pieColors = [
   chartTheme.colors.success,
@@ -15,15 +15,20 @@ const pieColors = [
   chartTheme.colors.muted,
 ];
 
-const FlashcardPieChart = () => {
-  const totalCards = flashcardData.reduce((sum, item) => sum + item.value, 0);
+const FlashcardPieChart = ({ data }) => {
+  const chartData = [
+    { name: "Mastered", value: data?.mastered || 0 },
+    { name: "Learning", value: data?.learning || 0 },
+    { name: "Not Started", value: data?.notStarted || 0 },
+  ];
+  const totalCards = chartData.reduce((sum, item) => sum + item.value, 0);
 
   return (
     <div className="relative w-full h-full">
       <ResponsiveContainer width="100%" height="100%">
         <PieChart>
           <Pie
-            data={flashcardData}
+            data={chartData}
             dataKey="value"
             cx="50%"
             cy="50%"
@@ -31,7 +36,7 @@ const FlashcardPieChart = () => {
             outerRadius="75%"
             paddingAngle={3}
           >
-            {flashcardData.map((entry, index) => (
+            {chartData.map((entry, index) => (
               <Cell key={entry.name} fill={pieColors[index]} />
             ))}
           </Pie>

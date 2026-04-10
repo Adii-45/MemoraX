@@ -8,12 +8,12 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import { chartTheme, weeklyData } from "./mockData";
+import { chartTheme } from "./chartTheme";
 
-const WeeklyConsistencyChart = () => {
+const WeeklyConsistencyChart = ({ data }) => {
   return (
     <ResponsiveContainer width="100%" height="100%">
-      <AreaChart data={weeklyData} margin={{ top: 8, right: 16, left: -8, bottom: 8 }}>
+      <AreaChart data={data || []} margin={{ top: 8, right: 16, left: -8, bottom: 8 }}>
         <defs>
           <linearGradient id="weeklyConsistencyGradient" x1="0" y1="0" x2="0" y2="1">
             <stop offset="5%" stopColor={chartTheme.colors.primary} stopOpacity={0.4} />

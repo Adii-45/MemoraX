@@ -16,7 +16,7 @@ import QuizPerformanceChart from "../../components/dashboard/QuizPerformanceChar
 import FlashcardPieChart from "../../components/dashboard/FlashcardPieChart";
 import WeeklyConsistencyChart from "../../components/dashboard/WeeklyConsistencyChart";
 import FeatureUsageChart from "../../components/dashboard/FeatureUsageChart";
-import { summaryStats, chartTheme } from "../../components/dashboard/mockData";
+import { chartTheme } from "../../components/dashboard/chartTheme";
 
 const DashboardPage = () => {
   const [dashboardData, setDashboardData] = useState(null);
@@ -39,7 +39,7 @@ const DashboardPage = () => {
 
   if (loading) return <Spinner />;
 
-  if (!dashboardData?.overview) {
+  if (!dashboardData) {
     return (
       <div className="flex items-center justify-center h-full">
         <p className="text-neutral-500 text-sm">
@@ -52,30 +52,26 @@ const DashboardPage = () => {
   const analyticsStats = [
     {
       title: "Total Documents",
-      value: summaryStats.totalDocuments,
+      value: dashboardData.totalDocuments || 0,
       icon: <FileText className="w-5 h-5" />,
-      trend: "+8% this week",
       accentColor: chartTheme.colors.primary,
     },
     {
       title: "Total Flashcards",
-      value: summaryStats.totalFlashcards,
+      value: dashboardData.totalFlashcards || 0,
       icon: <BookOpen className="w-5 h-5" />,
-      trend: "+15% this week",
       accentColor: chartTheme.colors.secondary,
     },
     {
       title: "Total Quizzes",
-      value: summaryStats.totalQuizzes,
+      value: dashboardData.totalQuizzes || 0,
       icon: <BrainCircuit className="w-5 h-5" />,
-      trend: "+4% this week",
       accentColor: chartTheme.colors.tertiary,
     },
     {
       title: "Average Score",
-      value: `${summaryStats.averageScore}%`,
+      value: `${dashboardData.averageScore || 0}%`,
       icon: <Trophy className="w-5 h-5" />,
-      trend: "+6.2% from last week",
       accentColor: chartTheme.colors.success,
     },
   ];
@@ -92,6 +88,7 @@ const DashboardPage = () => {
           Track your learning progress and insights
         </p>
       </div>
+      
       {/* Analytics Overview */}
       <div className="mb-6">
         <h2 className="text-2xl font-medium text-white tracking-tight">
@@ -102,7 +99,7 @@ const DashboardPage = () => {
         </p>
       </div>
 
-      {/* Stats */}
+      {/* Row 1: Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-8">
         {analyticsStats.map((stat) => (
           <StatCard
@@ -116,30 +113,36 @@ const DashboardPage = () => {
         ))}
       </div>
 
-      {/* Charts */}
+      {/* Row 2: Study Activity (larger) & Quiz Performance */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+        <AnalyticsCard title="Study Activity (Last 30 Days)" className="lg:col-span-2">
+          <ActivityChart data={dashboardData.studyActivity} />
+        </AnalyticsCard>
+
+        <AnalyticsCard title="Quiz Performance" subtitle="Score per attempt" className="lg:col-span-1">
+          <QuizPerformanceChart data={dashboardData.quizPerformance} />
+        </AnalyticsCard>
+      </div>
+
+      {/* Row 3: Flashcard Mastery & Weekly Consistency */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-        <AnalyticsCard title="Study Activity (Last 30 Days)">
-          <ActivityChart />
-        </AnalyticsCard>
-
-        <AnalyticsCard title="Quiz Performance" subtitle="Score per attempt">
-          <QuizPerformanceChart />
-        </AnalyticsCard>
-
         <AnalyticsCard title="Flashcard Mastery">
-          <FlashcardPieChart />
+          <FlashcardPieChart data={dashboardData.flashcardStats} />
         </AnalyticsCard>
 
         <AnalyticsCard title="Weekly Consistency" subtitle="Sessions per day">
-          <WeeklyConsistencyChart />
+          <WeeklyConsistencyChart data={dashboardData.weeklyConsistency} />
         </AnalyticsCard>
+      </div>
 
+      {/* Row 4: Feature Usage */}
+      <div className="grid grid-cols-1 gap-6 mb-8">
         <AnalyticsCard
           title="Feature Usage"
           subtitle="What you use most"
-          className="lg:col-span-2"
+          className="w-full"
         >
-          <FeatureUsageChart />
+          <FeatureUsageChart data={dashboardData.featureUsage} />
         </AnalyticsCard>
       </div>
 

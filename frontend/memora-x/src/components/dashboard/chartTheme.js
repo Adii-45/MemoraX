@@ -1,0 +1,26 @@
+export const chartTheme = {
+  colors: {
+    cardBackground: "#171717",
+    cardSurface: "#262626",
+    grid: "rgba(163, 163, 163, 0.14)",
+    axisText: "#a3a3a3",
+    tooltipBackground: "#1f1f1f",
+    tooltipBorder: "#404040",
+    tooltipText: "#fafafa",
+    primary: "#3D5EE5",
+    secondary: "#2F4ED8",
+    tertiary: "#8B5CF6",
+    success: "#22c55e",
+    warning: "#f59e0b",
+    muted: "#64748b",
+    danger: "#ef4444",
+  },
+  tooltipStyle: {
+    backgroundColor: "#1f1f1f",
+    border: "1px solid #404040",
+    borderRadius: "8px",
+    color: "#fafafa",
+    fontSize: "12px",
+    padding: "8px 10px",
+  },
+};
