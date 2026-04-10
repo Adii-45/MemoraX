@@ -9,12 +9,12 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import { activityData, chartTheme } from "./mockData";
+import { chartTheme } from "./chartTheme";
 
-const ActivityChart = () => {
+const ActivityChart = ({ data }) => {
   return (
     <ResponsiveContainer width="100%" height="100%">
-      <LineChart data={activityData} margin={{ top: 8, right: 16, left: -8, bottom: 8 }}>
+      <LineChart data={data} margin={{ top: 8, right: 16, left: -8, bottom: 8 }}>
         <CartesianGrid strokeDasharray="3 3" stroke={chartTheme.colors.grid} />
         <XAxis
           dataKey="date"

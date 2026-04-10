@@ -9,7 +9,7 @@ import {
   Cell,
   ResponsiveContainer,
 } from "recharts";
-import { chartTheme, featureUsageData } from "./mockData";
+import { chartTheme } from "./chartTheme";
 
 const barColors = [
   chartTheme.colors.primary,
@@ -17,10 +17,10 @@ const barColors = [
   chartTheme.colors.tertiary,
 ];
 
-const FeatureUsageChart = () => {
+const FeatureUsageChart = ({ data }) => {
   return (
     <ResponsiveContainer width="100%" height="100%">
-      <BarChart data={featureUsageData} margin={{ top: 8, right: 16, left: -8, bottom: 8 }}>
+      <BarChart data={data || []} margin={{ top: 8, right: 16, left: -8, bottom: 8 }}>
         <CartesianGrid strokeDasharray="3 3" stroke={chartTheme.colors.grid} />
         <XAxis
           dataKey="feature"
@@ -40,7 +40,7 @@ const FeatureUsageChart = () => {
           formatter={(value) => [`${value}`, "Usage Count"]}
         />
         <Bar dataKey="count" radius={[6, 6, 0, 0]}>
-          {featureUsageData.map((entry, index) => (
+          {(data || []).map((entry, index) => (
             <Cell key={entry.feature} fill={barColors[index]} />
           ))}
         </Bar>

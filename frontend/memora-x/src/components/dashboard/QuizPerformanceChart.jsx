@@ -9,7 +9,7 @@ import {
   Cell,
   ResponsiveContainer,
 } from "recharts";
-import { chartTheme, quizData } from "./mockData";
+import { chartTheme } from "./chartTheme";
 
 const getScoreColor = (score) => {
   if (score >= 80) return chartTheme.colors.success;
@@ -17,10 +17,10 @@ const getScoreColor = (score) => {
   return chartTheme.colors.danger;
 };
 
-const QuizPerformanceChart = () => {
+const QuizPerformanceChart = ({ data }) => {
   return (
     <ResponsiveContainer width="100%" height="100%">
-      <BarChart data={quizData} margin={{ top: 8, right: 16, left: -6, bottom: 8 }}>
+      <BarChart data={data || []} margin={{ top: 8, right: 16, left: -6, bottom: 8 }}>
         <CartesianGrid strokeDasharray="3 3" stroke={chartTheme.colors.grid} />
         <XAxis
           dataKey="attempt"
@@ -46,7 +46,7 @@ const QuizPerformanceChart = () => {
           }}
         />
         <Bar dataKey="score" radius={[4, 4, 0, 0]}>
-          {quizData.map((entry) => (
+          {(data || []).map((entry) => (
             <Cell key={entry.attempt} fill={getScoreColor(entry.score)} />
           ))}
         </Bar>
