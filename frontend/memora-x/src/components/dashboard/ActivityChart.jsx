@@ -29,7 +29,7 @@ const ActivityChart = ({ data }) => {
         />
         <Tooltip
           contentStyle={chartTheme.tooltipStyle}
-          labelStyle={{ color: chartTheme.colors.tooltipText }}
+          labelStyle={{ color: chartTheme.colors.tooltipText, fontWeight: "bold" }}
           itemStyle={{ color: chartTheme.colors.tooltipText }}
         />
         <Legend
@@ -41,7 +41,7 @@ const ActivityChart = ({ data }) => {
           type="monotone"
           dataKey="uploads"
           name="Uploads"
-          stroke={chartTheme.colors.primary}
+          stroke="#22C55E"
           strokeWidth={2}
           dot={false}
         />
@@ -49,7 +49,7 @@ const ActivityChart = ({ data }) => {
           type="monotone"
           dataKey="flashcards"
           name="Flashcards"
-          stroke={chartTheme.colors.secondary}
+          stroke="#3B82F6"
           strokeWidth={2}
           dot={false}
         />
@@ -57,7 +57,7 @@ const ActivityChart = ({ data }) => {
           type="monotone"
           dataKey="quizzes"
           name="Quizzes"
-          stroke={chartTheme.colors.tertiary}
+          stroke="#A855F7"
           strokeWidth={2}
           dot={false}
         />
