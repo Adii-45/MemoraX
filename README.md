@@ -210,57 +210,6 @@ MEMORAX
     ├── vite.config.js
     └── package.json
 ```
----
-
-## 🔌 API Routes
-
-### Auth
-- POST `/api/auth/register`
-- POST `/api/auth/login`
-- GET `/api/auth/profile`
-- PUT `/api/auth/profile`
-- POST `/api/auth/change-password`
-- PUT `/api/auth/profile-image`
-
----
-
-### Documents
-- POST `/api/documents/upload`
-- GET `/api/documents`
-- GET `/api/documents/:id`
-- PUT `/api/documents/:id`
-- DELETE `/api/documents/:id`
-
----
-
-### Flashcards
-- GET `/api/flashcards/:documentId`
-- POST `/api/flashcards`
-- PUT `/api/flashcards/:cardId/star`
-- DELETE `/api/flashcards/:id`
-
----
-
-### Quizzes
-- GET `/api/quizzes/:documentId`
-- GET `/api/quizzes/:id`
-- POST `/api/quizzes/:id/submit`
-- GET `/api/quizzes/:id/results`
-- DELETE `/api/quizzes/:id`
-
----
-
-### AI
-- POST `/api/ai/generate-flashcards`
-- POST `/api/ai/generate-quiz`
-- POST `/api/ai/generate-summary`
-- POST `/api/ai/chat`
-- GET `/api/ai/chat-history/:documentId`
-
----
-
-### Progress / Analytics
-- GET `/api/progress/dashboard`
 
 ---
 
