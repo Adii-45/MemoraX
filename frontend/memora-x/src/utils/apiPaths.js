@@ -56,5 +56,6 @@ export const API_PATHS = {
     DELETE_POST: (id) => `/api/community/post/${id}`,
     UPDATE_COMMENT: (id) => `/api/community/comment/${id}`,
     DELETE_COMMENT: (id) => `/api/community/comment/${id}`,
+    SHARE_POST: (shareId) => `/api/community/post/share/${shareId}`,
   },
 };
