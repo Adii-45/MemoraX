@@ -9,7 +9,6 @@ const postSchema = new mongoose.Schema(
     },
     content: {
       type: String,
-      required: [true, "Post content is required"],
       trim: true,
       maxlength: [2000, "Post content cannot exceed 2000 characters"],
     },
@@ -26,6 +25,20 @@ const postSchema = new mongoose.Schema(
     reposts: {
       type: Number,
       default: 0,
+    },
+    repostedBy: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
+    file: {
+      type: String,
+      default: null,
+    },
+    fileName: {
+      type: String,
+      default: null,
     },
     commentsCount: {
       type: Number,
