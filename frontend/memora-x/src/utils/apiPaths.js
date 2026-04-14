@@ -52,5 +52,9 @@ export const API_PATHS = {
     CREATE_COMMENT: (id) => `/api/community/post/${id}/comment`,
     GET_COMMENTS: (id) => `/api/community/post/${id}/comments`,
     REPOST: (id) => `/api/community/post/${id}/repost`,
+    UPDATE_POST: (id) => `/api/community/post/${id}`,
+    DELETE_POST: (id) => `/api/community/post/${id}`,
+    UPDATE_COMMENT: (id) => `/api/community/comment/${id}`,
+    DELETE_COMMENT: (id) => `/api/community/comment/${id}`,
   },
 };
