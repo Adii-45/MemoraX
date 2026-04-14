@@ -18,7 +18,7 @@ const QuizPerformanceChart = ({ data }) => {
   }));
 
   return (
-    <ResponsiveContainer width="100%" height="100%">
+    <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
       <BarChart data={processedData} margin={{ top: 8, right: 16, left: -6, bottom: 8 }}>
         <CartesianGrid strokeDasharray="3 3" stroke={chartTheme.colors.grid} />
         <XAxis
