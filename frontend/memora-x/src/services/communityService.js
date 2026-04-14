@@ -57,6 +57,40 @@ const communityService = {
     );
     return response.data;
   },
+
+  // Edit Post
+  updatePost: async (postId, content) => {
+    const response = await axiosInstance.put(
+      API_PATHS.COMMUNITY.UPDATE_POST(postId),
+      { content }
+    );
+    return response.data;
+  },
+
+  // Delete Post
+  deletePost: async (postId) => {
+    const response = await axiosInstance.delete(
+      API_PATHS.COMMUNITY.DELETE_POST(postId)
+    );
+    return response.data;
+  },
+
+  // Edit Comment
+  updateComment: async (commentId, content) => {
+    const response = await axiosInstance.put(
+      API_PATHS.COMMUNITY.UPDATE_COMMENT(commentId),
+      { content }
+    );
+    return response.data;
+  },
+
+  // Delete Comment
+  deleteComment: async (commentId) => {
+    const response = await axiosInstance.delete(
+      API_PATHS.COMMUNITY.DELETE_COMMENT(commentId)
+    );
+    return response.data;
+  },
 };
 
 export default communityService;
