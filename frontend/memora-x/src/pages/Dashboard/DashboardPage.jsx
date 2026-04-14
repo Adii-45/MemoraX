@@ -75,6 +75,16 @@ const DashboardPage = () => {
     },
   ];
 
+  const getRelativeTime = (timestamp) => {
+    if (!timestamp) return "No date available";
+    const diffInSeconds = Math.floor((new Date() - new Date(timestamp)) / 1000);
+    if (diffInSeconds < 60) return "Just now";
+    if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}m ago`;
+    if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h ago`;
+    if (diffInSeconds < 172800) return "Yesterday";
+    return `${Math.floor(diffInSeconds / 86400)}d ago`;
+  };
+
   return (
     <div className="max-w-6xl mx-auto">
 
@@ -149,7 +159,7 @@ const DashboardPage = () => {
 
         {dashboardData?.recentActivity?.documents?.length > 0 ||
         dashboardData?.recentActivity?.quizzes?.length > 0 ? (
-          <div className="space-y-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {[
               ...(dashboardData.recentActivity.documents || []).map(
                 (doc) => ({
@@ -169,34 +179,30 @@ const DashboardPage = () => {
               })),
             ]
               .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+              .slice(0, 6)
               .map((activity, index) => (
-                <div
+                <a
                   key={activity.id || index}
-                  className="flex items-center justify-between p-4 rounded-xl border border-neutral-800 hover:bg-neutral-800/50 transition"
+                  href={activity.link}
+                  className="group flex flex-col p-5 rounded-2xl border border-neutral-800 bg-neutral-900 hover:bg-neutral-800 transition-all duration-200 hover:border-neutral-700 shadow-sm"
                 >
+                  <div className="flex justify-between items-start mb-4">
+                    <div className="p-2.5 rounded-xl bg-neutral-800 text-neutral-300 group-hover:text-primary group-hover:bg-primary/10 transition-colors">
+                      {activity.type === "document" ? <FileText size={20} /> : <BrainCircuit size={20} />}
+                    </div>
+                    <span className="text-xs font-semibold text-neutral-500">
+                      {getRelativeTime(activity.timestamp)}
+                    </span>
+                  </div>
                   <div>
-                    <p className="text-sm font-medium text-white">
-                      {activity.type === "document"
-                        ? "Accessed Document: "
-                        : "Attempted Quiz: "}
-                      <span className="text-neutral-300">
-                        {activity.description}
-                      </span>
-                    </p>
-                    <p className="text-xs text-neutral-500 mt-1">
-                      {activity.timestamp
-                        ? new Date(activity.timestamp).toLocaleString()
-                        : "No date available"}
+                    <h4 className="text-sm font-semibold text-white mb-1 truncate">
+                      {activity.description}
+                    </h4>
+                    <p className="text-xs text-neutral-400">
+                      {activity.type === "document" ? "Accessed Document" : "Attempted Quiz"}
                     </p>
                   </div>
-
-                  <a
-                    href={activity.link}
-                    className="text-sm font-semibold text-primary hover:underline"
-                  >
-                    View
-                  </a>
-                </div>
+                </a>
               ))}
           </div>
         ) : (
