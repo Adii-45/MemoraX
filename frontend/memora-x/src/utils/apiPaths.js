@@ -45,4 +45,12 @@ export const API_PATHS = {
   PROGRESS: {
     GET_DASHBOARD: "/api/progress/dashboard",
   },
+  COMMUNITY: {
+    CREATE_POST: "/api/community/post",
+    GET_POSTS: "/api/community/posts",
+    LIKE_POST: (id) => `/api/community/post/${id}/like`,
+    CREATE_COMMENT: (id) => `/api/community/post/${id}/comment`,
+    GET_COMMENTS: (id) => `/api/community/post/${id}/comments`,
+    REPOST: (id) => `/api/community/post/${id}/repost`,
+  },
 };
