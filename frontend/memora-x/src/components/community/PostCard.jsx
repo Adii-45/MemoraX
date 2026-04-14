@@ -12,13 +12,15 @@ import {
   X,
   Check,
   Loader2,
+  Share2,
 } from "lucide-react";
 import CommentSection from "./CommentSection";
+import ImageModal from "./ImageModal";
 import communityService from "../../services/communityService";
 import toast from "react-hot-toast";
 import { useAuth } from "../../context/AuthContext";
 
-const PostCard = ({ post, onPostUpdated, onPostDeleted }) => {
+const PostCard = ({ post, onPostUpdated, onPostDeleted, readOnly = false }) => {
   const { user } = useAuth();
   const [showComments, setShowComments] = useState(false);
   const [isLiked, setIsLiked] = useState(
@@ -38,6 +40,7 @@ const PostCard = ({ post, onPostUpdated, onPostDeleted }) => {
   const [isSavingEdit, setIsSavingEdit] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [currentContent, setCurrentContent] = useState(post.content || "");
+  const [imageModal, setImageModal] = useState(null);
 
   const isOwner = user?.id === post.user?._id;
 
@@ -147,6 +150,29 @@ const PostCard = ({ post, onPostUpdated, onPostDeleted }) => {
     return post.fileName || "Attached file";
   };
 
+  // Share handler
+  const handleShare = () => {
+    const shareUrl = `${window.location.origin}/community/post/${post.shareId}`;
+    navigator.clipboard.writeText(shareUrl).then(() => {
+      toast.success("Link copied to clipboard");
+    }).catch(() => {
+      toast.error("Failed to copy link");
+    });
+  };
+
+  // Format date with time
+  const formatDate = (dateString) => {
+    const d = new Date(dateString);
+    return d.toLocaleString("en-US", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true,
+    });
+  };
+
   return (
     <div className={`bg-neutral-950 border border-neutral-800 rounded-2xl p-4 hover:border-neutral-700 transition-colors relative ${isDeleting ? 'opacity-50 pointer-events-none' : ''}`}>
       {/* Header */}
@@ -167,12 +193,12 @@ const PostCard = ({ post, onPostUpdated, onPostDeleted }) => {
             {post.user?.username || "Unknown User"}
           </h3>
           <p className="text-xs text-neutral-500">
-            {new Date(post.createdAt).toLocaleDateString()}
+            {formatDate(post.createdAt)}
           </p>
         </div>
 
         {/* Owner Menu */}
-        {isOwner && (
+        {isOwner && !readOnly && (
           <div className="relative">
             <button
               onClick={() => setShowMenu(!showMenu)}
@@ -250,8 +276,9 @@ const PostCard = ({ post, onPostUpdated, onPostDeleted }) => {
             <img
               src={post.image}
               alt="Post content"
-              className="w-full max-h-[500px] object-contain rounded-xl bg-black border border-neutral-800 shadow-md"
+              className="w-full max-h-[500px] object-contain rounded-xl bg-black border border-neutral-800 shadow-md cursor-pointer hover:brightness-110 transition-all"
               loading="lazy"
+              onClick={() => setImageModal(post.image)}
             />
           </div>
         )}
@@ -322,10 +349,21 @@ const PostCard = ({ post, onPostUpdated, onPostDeleted }) => {
           <Repeat2 size={17} />
           <span>{repostsCount}</span>
         </button>
+
+        {/* Share */}
+        {post.shareId && (
+          <button
+            onClick={handleShare}
+            title="Share Post"
+            className="flex items-center gap-1.5 text-sm font-medium text-neutral-500 hover:text-purple-400 transition-all duration-200 hover:scale-105"
+          >
+            <Share2 size={17} />
+          </button>
+        )}
       </div>
 
       {/* Comments Section — threaded feel */}
-      {showComments && (
+      {showComments && !readOnly && (
         <div className="mt-3 ml-2 border-l-2 border-neutral-800/60 pl-4">
           <CommentSection
             postId={post._id}
@@ -334,6 +372,15 @@ const PostCard = ({ post, onPostUpdated, onPostDeleted }) => {
             onCommentDeleted={handleCommentDeleted}
           />
         </div>
+      )}
+
+      {/* Image Zoom Modal */}
+      {imageModal && (
+        <ImageModal
+          src={imageModal}
+          alt="Post image"
+          onClose={() => setImageModal(null)}
+        />
       )}
     </div>
   );

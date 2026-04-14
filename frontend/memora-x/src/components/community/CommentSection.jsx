@@ -4,6 +4,7 @@ import CommentInput from "./CommentInput";
 import communityService from "../../services/communityService";
 import toast from "react-hot-toast";
 import { useAuth } from "../../context/AuthContext";
+import { timeAgo } from "../../utils/timeAgo";
 
 const CommentSection = ({ postId, postOwnerId, onCommentAdded, onCommentDeleted }) => {
   const { user } = useAuth();
@@ -144,7 +145,7 @@ const CommentSection = ({ postId, postOwnerId, onCommentAdded, onCommentDeleted 
                       {comment.isAnonymous ? "Anonymous User" : comment.user?.username || "Unknown"}
                     </span>
                     <span className="text-[11px] text-neutral-600">
-                      {new Date(comment.createdAt).toLocaleDateString()}
+                      {timeAgo(comment.createdAt)}
                     </span>
                   </div>
 

@@ -91,6 +91,14 @@ const communityService = {
     );
     return response.data;
   },
+
+  // Get Shared Post (public)
+  getSharedPost: async (shareId) => {
+    const response = await axiosInstance.get(
+      API_PATHS.COMMUNITY.SHARE_POST(shareId)
+    );
+    return response.data;
+  },
 };
 
 export default communityService;

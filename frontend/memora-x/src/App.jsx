@@ -18,6 +18,7 @@ import QuizTakePage from "./pages/Quizzes/QuizTakePage";
 import QuizResultPage from "./pages/Quizzes/QuizResultPage";
 import ProfilePage from "./pages/Profile/ProfilePage";
 import CommunityPage from "./pages/Community/CommunityPage";
+import SharePostPage from "./pages/Community/SharePostPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import { useAuth } from "./context/AuthContext";
@@ -46,6 +47,9 @@ const App = () => {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
         </Route>
+
+        {/* PUBLIC SHARED POST */}
+        <Route path="/community/post/:shareId" element={<SharePostPage />} />
 
         {/* PROTECTED ROUTES */}
         <Route element={<ProtectedRoute />}>
