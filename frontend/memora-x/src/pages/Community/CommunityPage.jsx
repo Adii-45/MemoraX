@@ -41,6 +41,8 @@ const CommunityPage = () => {
         return "You haven't posted anything yet.";
       case "liked":
         return "You haven't liked any posts.";
+      case "reposts":
+        return "You haven't reposted any posts yet.";
       default:
         return "No posts yet. Be the first to share something!";
     }
@@ -81,6 +83,14 @@ const CommunityPage = () => {
         >
           Liked
         </button>
+        <button
+          onClick={() => setFilter("reposts")}
+          className={`flex-1 py-2 text-sm font-medium rounded-lg transition-all ${
+            filter === "reposts" ? "bg-neutral-800 text-white shadow-sm" : "text-neutral-400 hover:text-neutral-200"
+          }`}
+        >
+          Reposts
+        </button>
       </div>
 
       {/* Posts Feed */}
@@ -96,7 +106,12 @@ const CommunityPage = () => {
           </div>
         ) : (
           posts.map((post) => (
-            <PostCard key={post._id} post={post} />
+            <PostCard 
+               key={post._id} 
+               post={post} 
+               onPostDeleted={(postId) => setPosts(posts.filter(p => p._id !== postId))}
+               onPostUpdated={(updatedPost) => setPosts(posts.map(p => p._id === updatedPost._id ? updatedPost : p))}
+            />
           ))
         )}
       </div>
