@@ -62,7 +62,7 @@ const changePassword = async (passwords) => {
 const changeProfileImage = async (formData) => {
   try {
     const response = await axiosInstance.put(
-      "/api/auth/profile-image",
+      API_PATHS.AUTH.PROFILE_IMAGE,
       formData,
       {
         headers: {
