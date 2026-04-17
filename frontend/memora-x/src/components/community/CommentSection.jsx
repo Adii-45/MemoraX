@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { User, Pencil, Trash2, X, Check, Loader2 } from "lucide-react";
 import CommentInput from "./CommentInput";
+import UserHoverCard from "./UserHoverCard";
 import communityService from "../../services/communityService";
 import toast from "react-hot-toast";
 import { useAuth } from "../../context/AuthContext";
@@ -127,23 +128,41 @@ const CommentSection = ({ postId, postOwnerId, onCommentAdded, onCommentDeleted 
             >
               <div className="flex-shrink-0 pt-0.5">
                 {comment.isAnonymous || !comment.user?.profileImage ? (
-                  <div className="w-7 h-7 rounded-full bg-neutral-800/60 flex items-center justify-center">
-                    <User size={14} className="text-neutral-500" />
-                  </div>
+                  comment.isAnonymous ? (
+                    <div className="w-7 h-7 rounded-full bg-neutral-800/60 flex items-center justify-center">
+                      <User size={14} className="text-neutral-500" />
+                    </div>
+                  ) : (
+                    <UserHoverCard userId={comment.user?._id}>
+                      <div className="w-7 h-7 rounded-full bg-neutral-800/60 flex items-center justify-center hover:ring-2 hover:ring-primary/40 transition-all">
+                        <User size={14} className="text-neutral-500" />
+                      </div>
+                    </UserHoverCard>
+                  )
                 ) : (
-                  <img
-                    src={comment.user.profileImage}
-                    alt="avatar"
-                    className="w-7 h-7 rounded-full object-cover"
-                  />
+                  <UserHoverCard userId={comment.user?._id}>
+                    <img
+                      src={comment.user.profileImage}
+                      alt="avatar"
+                      className="w-7 h-7 rounded-full object-cover hover:ring-2 hover:ring-primary/40 transition-all"
+                    />
+                  </UserHoverCard>
                 )}
               </div>
               <div className="flex-1 min-w-0">
                 <div className="bg-neutral-900/40 rounded-md px-3 py-2">
                   <div className="flex items-baseline gap-2 mb-0.5">
-                    <span className="text-xs font-semibold text-neutral-300">
-                      {comment.isAnonymous ? "Anonymous User" : comment.user?.username || "Unknown"}
-                    </span>
+                    {comment.isAnonymous ? (
+                      <span className="text-xs font-semibold text-neutral-300">
+                        Anonymous User
+                      </span>
+                    ) : (
+                      <UserHoverCard userId={comment.user?._id}>
+                        <span className="text-xs font-semibold text-neutral-300 hover:text-primary transition-colors cursor-pointer">
+                          {comment.user?.username || "Unknown"}
+                        </span>
+                      </UserHoverCard>
+                    )}
                     <span className="text-[11px] text-neutral-600">
                       {timeAgo(comment.createdAt)}
                     </span>

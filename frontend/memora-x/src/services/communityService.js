@@ -2,6 +2,14 @@ import axiosInstance from "../utils/axiosInstance";
 import { API_PATHS } from "../utils/apiPaths";
 
 const communityService = {
+  // Get a user's public profile by ID (for hover cards)
+  getUserProfile: async (userId) => {
+    const response = await axiosInstance.get(
+      API_PATHS.AUTH.USER_PROFILE(userId)
+    );
+    return response.data;
+  },
+
   // Create a new post
   createPost: async (formData) => {
     // We expect formData here (can contain an image file)

@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import CommentSection from "./CommentSection";
 import ImageModal from "./ImageModal";
+import UserHoverCard from "./UserHoverCard";
 import communityService from "../../services/communityService";
 import toast from "react-hot-toast";
 import { useAuth } from "../../context/AuthContext";
@@ -177,21 +178,25 @@ const PostCard = ({ post, onPostUpdated, onPostDeleted, readOnly = false }) => {
     <div className={`bg-neutral-950 border border-neutral-800 rounded-2xl p-4 hover:border-neutral-700 transition-colors relative ${isDeleting ? 'opacity-50 pointer-events-none' : ''}`}>
       {/* Header */}
       <div className="flex items-center gap-3 mb-3">
-        {post.user?.profileImage ? (
-          <img
-            src={post.user.profileImage}
-            alt={post.user.username}
-            className="w-10 h-10 rounded-full object-cover border border-neutral-800"
-          />
-        ) : (
-          <div className="w-10 h-10 rounded-full bg-neutral-800 flex items-center justify-center border border-neutral-700">
-            <User size={20} className="text-neutral-400" />
-          </div>
-        )}
+        <UserHoverCard userId={post.user?._id}>
+          {post.user?.profileImage ? (
+            <img
+              src={post.user.profileImage}
+              alt={post.user.username}
+              className="w-10 h-10 rounded-full object-cover border border-neutral-800 hover:ring-2 hover:ring-primary/40 transition-all"
+            />
+          ) : (
+            <div className="w-10 h-10 rounded-full bg-neutral-800 flex items-center justify-center border border-neutral-700 hover:ring-2 hover:ring-primary/40 transition-all">
+              <User size={20} className="text-neutral-400" />
+            </div>
+          )}
+        </UserHoverCard>
         <div className="flex-1">
-          <h3 className="font-semibold text-neutral-200">
-            {post.user?.username || "Unknown User"}
-          </h3>
+          <UserHoverCard userId={post.user?._id}>
+            <h3 className="font-semibold text-neutral-200 hover:text-primary transition-colors">
+              {post.user?.username || "Unknown User"}
+            </h3>
+          </UserHoverCard>
           <p className="text-xs text-neutral-500">
             {formatDate(post.createdAt)}
           </p>
