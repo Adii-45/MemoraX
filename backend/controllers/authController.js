@@ -138,6 +138,38 @@ export const getProfile = async (req, res, next) => {
   }
 };
 
+// @desc Get public profile by user ID
+// @route GET /api/auth/profile/:id
+// @access Private
+export const getUserPublicProfile = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.id).select(
+      "username profileImage bio createdAt"
+    );
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        error: "User not found",
+        statusCode: 404,
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: {
+        id: user._id,
+        username: user.username,
+        profileImage: user.profileImage,
+        bio: user.bio || "",
+        createdAt: user.createdAt,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 // @desc Update user profile
 // @route PUT /api/auth/profile
 // @access Private
