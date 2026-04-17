@@ -32,6 +32,13 @@ const userSchema = new mongoose.Schema(
       maxlength: [200, "Bio cannot exceed 200 characters"],
       default: "",
     },
+    notificationSettings: {
+      likes: { type: Boolean, default: true },
+      comments: { type: Boolean, default: true },
+      reposts: { type: Boolean, default: true },
+      streaks: { type: Boolean, default: true },
+      system: { type: Boolean, default: true },
+    },
   },
   {
     timestamps: true,

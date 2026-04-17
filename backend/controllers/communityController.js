@@ -1,5 +1,6 @@
 import Post from "../models/postModel.js";
 import Comment from "../models/commentModel.js";
+import { createNotification } from "../utils/notificationHelper.js";
 
 // @desc Create a new post
 // @route POST /api/community/post
@@ -173,6 +174,17 @@ export const likePost = async (req, res, next) => {
 
     await post.save();
 
+    // Fire-and-forget notification on like (not unlike)
+    if (!isLiked) {
+      createNotification({
+        recipientId: post.user,
+        triggerUserId: userId,
+        type: "like_post",
+        message: `${req.user.username} liked your post`,
+        postId: post._id,
+      });
+    }
+
     res.status(200).json({
       success: true,
       data: {
@@ -221,6 +233,18 @@ export const createComment = async (req, res, next) => {
     await Post.findByIdAndUpdate(postId, { $inc: { commentsCount: 1 } });
 
     const populatedComment = await comment.populate("user", "username profileImage");
+
+    // Fire-and-forget notification for comment
+    const commentedPost = await Post.findById(postId).select("user");
+    if (commentedPost && !isAnon) {
+      createNotification({
+        recipientId: commentedPost.user,
+        triggerUserId: req.user.id,
+        type: "comment_post",
+        message: `${req.user.username} commented on your post`,
+        postId: postId,
+      });
+    }
 
     res.status(201).json({
       success: true,
@@ -279,6 +303,17 @@ export const repostPost = async (req, res, next) => {
     }
 
     await post.save();
+
+    // Fire-and-forget notification on repost (not un-repost)
+    if (!isReposted) {
+      createNotification({
+        recipientId: post.user,
+        triggerUserId: userId,
+        type: "repost_post",
+        message: `${req.user.username} reposted your post`,
+        postId: post._id,
+      });
+    }
 
     res.status(200).json({
       success: true,
