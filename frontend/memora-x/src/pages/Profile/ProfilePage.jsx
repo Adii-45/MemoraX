@@ -16,9 +16,11 @@ import {
   Eye,
   EyeOff,
   ShieldCheck,
+  Bell,
 } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 import authService from "../../services/authService";
+import notificationService from "../../services/notificationService";
 import toast from "react-hot-toast";
 
 const ProfilePage = () => {
@@ -42,6 +44,16 @@ const ProfilePage = () => {
 
   // ── Inline validation ──
   const [fieldErrors, setFieldErrors] = useState({});
+
+  // ── Notification Settings ──
+  const [notifSettings, setNotifSettings] = useState({
+    likes: true,
+    comments: true,
+    reposts: true,
+    streaks: true,
+    system: true,
+  });
+  const [notifLoading, setNotifLoading] = useState(true);
 
   // ── Password ──
   const [passwordLoading, setPasswordLoading] = useState(false);
@@ -77,7 +89,35 @@ const ProfilePage = () => {
 
   useEffect(() => {
     fetchProfile();
+    fetchNotifSettings();
   }, [fetchProfile]);
+
+  // ── Fetch notification settings ──
+  const fetchNotifSettings = async () => {
+    try {
+      setNotifLoading(true);
+      const res = await notificationService.getSettings();
+      if (res.success) setNotifSettings(res.data);
+    } catch (err) {
+      console.error("Failed to fetch notification settings:", err);
+    } finally {
+      setNotifLoading(false);
+    }
+  };
+
+  // ── Toggle a notification setting ──
+  const handleToggleNotif = async (key) => {
+    const newValue = !notifSettings[key];
+    // Optimistic update
+    setNotifSettings((prev) => ({ ...prev, [key]: newValue }));
+    try {
+      await notificationService.updateSettings({ [key]: newValue });
+    } catch (err) {
+      // Revert on error
+      setNotifSettings((prev) => ({ ...prev, [key]: !newValue }));
+      toast.error("Failed to update notification settings");
+    }
+  };
 
   // ── Has changes? ──
   const hasChanges = useMemo(() => {
@@ -512,11 +552,87 @@ const ProfilePage = () => {
           </div>
         </form>
       </div>
+
+      {/* ════════════════════ NOTIFICATION PREFERENCES ════════════════════ */}
+      <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-6">
+        <div className="flex items-center gap-2.5 mb-1">
+          <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-primary/10">
+            <Bell size={16} className="text-primary" />
+          </div>
+          <h3 className="text-base font-semibold text-white">Notification Preferences</h3>
+        </div>
+        <p className="text-xs text-neutral-500 mb-6 ml-[42px]">
+          Choose which notifications you want to receive.
+        </p>
+
+        {notifLoading ? (
+          <div className="flex items-center justify-center py-8">
+            <Loader2 size={20} className="text-primary animate-spin" />
+          </div>
+        ) : (
+          <div className="space-y-4 max-w-lg">
+            <ToggleRow
+              label="Likes"
+              description="When someone likes your post"
+              checked={notifSettings.likes}
+              onChange={() => handleToggleNotif("likes")}
+            />
+            <ToggleRow
+              label="Comments"
+              description="When someone comments on your post"
+              checked={notifSettings.comments}
+              onChange={() => handleToggleNotif("comments")}
+            />
+            <ToggleRow
+              label="Reposts"
+              description="When someone reposts your content"
+              checked={notifSettings.reposts}
+              onChange={() => handleToggleNotif("reposts")}
+            />
+            <ToggleRow
+              label="Streak Reminders"
+              description="Daily reminders to keep your streak going"
+              checked={notifSettings.streaks}
+              onChange={() => handleToggleNotif("streaks")}
+            />
+            <ToggleRow
+              label="System"
+              description="Updates, announcements, and tips"
+              checked={notifSettings.system}
+              onChange={() => handleToggleNotif("system")}
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
 };
 
 /* ═══════════ Sub-components ═══════════ */
+
+/** Toggle switch row for notification preferences */
+const ToggleRow = ({ label, description, checked, onChange }) => (
+  <div className="flex items-center justify-between py-2">
+    <div>
+      <p className="text-sm font-medium text-neutral-200">{label}</p>
+      <p className="text-xs text-neutral-500">{description}</p>
+    </div>
+    <button
+      onClick={onChange}
+      className={`relative w-11 h-6 rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary/30 ${
+        checked ? "bg-primary" : "bg-neutral-700"
+      }`}
+      role="switch"
+      aria-checked={checked}
+    >
+      <span
+        className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow-sm transition-transform duration-200 ${
+          checked ? "translate-x-5" : "translate-x-0"
+        }`}
+      />
+    </button>
+  </div>
+);
 
 /** Read-only info row for view mode */
 const InfoRow = ({ icon: Icon, label, value }) => (

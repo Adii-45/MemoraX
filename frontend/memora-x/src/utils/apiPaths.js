@@ -61,4 +61,13 @@ export const API_PATHS = {
     DELETE_COMMENT: (id) => `/api/community/comment/${id}`,
     SHARE_POST: (shareId) => `/api/community/post/share/${shareId}`,
   },
+  NOTIFICATIONS: {
+    GET_RECENT: "/api/notifications",
+    GET_ALL: "/api/notifications/all",
+    UNREAD_COUNT: "/api/notifications/unread-count",
+    MARK_READ: (id) => `/api/notifications/${id}/read`,
+    MARK_ALL_READ: "/api/notifications/read-all",
+    GET_SETTINGS: "/api/notifications/settings",
+    UPDATE_SETTINGS: "/api/notifications/settings",
+  },
 };
