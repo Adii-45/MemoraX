@@ -137,7 +137,7 @@ const ActivityChart = ({ data: initialData }) => {
               type="monotone"
               dataKey="flashcards"
               name="Flashcards"
-              stroke="#3B82F6"
+              stroke="#2563EB"
               strokeWidth={2}
               dot={false}
             />

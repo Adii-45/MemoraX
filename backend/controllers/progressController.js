@@ -95,32 +95,75 @@ export const getDashboard = async (req, res, next) => {
     });
 
     // === Weekly Consistency ===
-    const sevenDaysAgo = new Date();
-    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 6);
-    sevenDaysAgo.setHours(0, 0, 0, 0);
-
-    const weeklyMap = {};
-    for (let i = 0; i < 7; i++) {
-        const d = new Date(sevenDaysAgo);
-        d.setDate(d.getDate() + i);
-        weeklyMap[formatDay(d)] = 0;
-    }
-
-    const sessionsSevenDocs = await Document.find({ userId, uploadDate: { $gte: sevenDaysAgo } });
-    const sessionsSevenQuizzes = await Quiz.find({ userId, completedAt: { $gte: sevenDaysAgo } });
-    
-    sessionsSevenDocs.forEach(doc => {
-        const dayStr = formatDay(new Date(doc.uploadDate));
-        if (weeklyMap[dayStr] !== undefined) weeklyMap[dayStr] += 1;
-    });
-    sessionsSevenQuizzes.forEach(quiz => {
-        const dayStr = formatDay(new Date(quiz.completedAt));
-        if (weeklyMap[dayStr] !== undefined) weeklyMap[dayStr] += 1;
+    const last7Days = [...Array(7)].map((_, i) => {
+      const d = new Date();
+      d.setDate(d.getDate() - (6 - i));
+      return new Date(d.getFullYear(), d.getMonth(), d.getDate());
     });
 
-    const weeklyConsistency = Object.keys(weeklyMap).map(day => ({
-        day,
-        sessions: weeklyMap[day]
+    const sevenDaysAgoStart = last7Days[0];
+
+    const weeklyQuizzes = await Quiz.find({ userId, completedAt: { $gte: sevenDaysAgoStart } });
+    const allFlashcards = await Flashcard.find({ userId });
+
+    const activities = [];
+
+    weeklyQuizzes.forEach(quiz => {
+      if (quiz.completedAt) {
+        activities.push({
+          type: "quiz",
+          createdAt: quiz.completedAt
+        });
+      }
+    });
+
+    allFlashcards.forEach(set => {
+      if (set.createdAt && new Date(set.createdAt) >= sevenDaysAgoStart) {
+        activities.push({
+          type: "flashcard",
+          createdAt: set.createdAt
+        });
+      }
+      set.cards.forEach(card => {
+        if (card.lastReviewed && new Date(card.lastReviewed) >= sevenDaysAgoStart) {
+          activities.push({
+            type: "flashcard",
+            createdAt: card.lastReviewed
+          });
+        }
+      });
+    });
+
+    const dataMap = {
+      flashcards: Array(7).fill(0),
+      quizzes: Array(7).fill(0)
+    };
+
+    activities.forEach(activity => {
+      const date = new Date(activity.createdAt);
+      const normalized = new Date(
+        date.getFullYear(),
+        date.getMonth(),
+        date.getDate()
+      );
+
+      const index = last7Days.findIndex(
+        d => d.getTime() === normalized.getTime()
+      );
+
+      if (index !== -1) {
+        if (activity.type === "flashcard") {
+          dataMap.flashcards[index]++;
+        } else if (activity.type === "quiz") {
+          dataMap.quizzes[index]++;
+        }
+      }
+    });
+
+    const weeklyConsistency = last7Days.map((d, index) => ({
+      date: d.toISOString(),
+      quizzes: dataMap.quizzes[index],
+      flashcards: dataMap.flashcards[index]
     }));
 
     // === Feature Usage ===

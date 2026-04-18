@@ -225,10 +225,9 @@ const WeeklyConsistencyChart = ({ data }) => {
 
                   if (isCurrentMonth) {
                     if (score === 0) bgClass = "bg-neutral-800";
-                    else if (score < 5) bgClass = "bg-[#1f2937]";
-                    else if (score < 10) bgClass = "bg-[#22c55e]";
-                    else if (score < 20) bgClass = "bg-[#16a34a]";
-                    else bgClass = "bg-[#15803d]";
+                    else if (score < 2) bgClass = "bg-blue-500";
+                    else if (score < 4) bgClass = "bg-blue-600";
+                    else bgClass = "bg-blue-700";
                   }
 
                   return (
