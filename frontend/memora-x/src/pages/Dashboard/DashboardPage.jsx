@@ -139,7 +139,7 @@ const DashboardPage = () => {
           <FlashcardPieChart data={dashboardData.flashcardStats} />
         </AnalyticsCard>
 
-        <AnalyticsCard title="Weekly Consistency" subtitle="Sessions per day">
+        <AnalyticsCard title="Weekly Consistency" subtitle="Sessions per day" allowOverflow>
           <WeeklyConsistencyChart data={dashboardData.weeklyConsistency} />
         </AnalyticsCard>
       </div>

@@ -54,7 +54,7 @@ const ActivityChart = ({ data: initialData }) => {
   const selectedLabel = options.find((o) => o.value === range)?.label || "Last 30 Days";
 
   return (
-    <section className="bg-neutral-900 border border-neutral-800 rounded-2xl p-6 shadow-lg h-full flex flex-col overflow-visible">
+    <section className="bg-neutral-900 border border-neutral-800 rounded-2xl p-4 sm:p-6 shadow-lg h-full flex flex-col overflow-visible">
       {/* HEADER */}
       <div className="flex items-center justify-between mb-3">
         <h3 className="text-lg font-semibold text-neutral-200">
@@ -97,56 +97,59 @@ const ActivityChart = ({ data: initialData }) => {
       <div className="border-t border-neutral-800 mb-4" />
 
       {/* CHART */}
-      <div className="w-full h-[300px] flex-1">
+      <div className="w-full min-h-[260px] sm:min-h-[300px] md:min-h-[350px] flex-1 min-w-0 overflow-hidden">
         <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
-          <LineChart data={chartData} margin={{ top: 8, right: 16, left: -8, bottom: 8 }}>
-        <CartesianGrid strokeDasharray="3 3" stroke={chartTheme.colors.grid} />
-        <XAxis
-          dataKey="date"
-          tick={{ fill: chartTheme.colors.axisText, fontSize: 11 }}
-          axisLine={{ stroke: chartTheme.colors.grid }}
-          tickLine={{ stroke: chartTheme.colors.grid }}
-        />
-        <YAxis
-          tick={{ fill: chartTheme.colors.axisText, fontSize: 11 }}
-          axisLine={{ stroke: chartTheme.colors.grid }}
-          tickLine={{ stroke: chartTheme.colors.grid }}
-        />
-        <Tooltip
-          contentStyle={chartTheme.tooltipStyle}
-          labelStyle={{ color: chartTheme.colors.tooltipText, fontWeight: "bold" }}
-          itemStyle={{ color: chartTheme.colors.tooltipText }}
-        />
-        <Legend
-          verticalAlign="bottom"
-          iconType="circle"
-          wrapperStyle={{ color: chartTheme.colors.axisText, fontSize: 12 }}
-        />
-        <Line
-          type="monotone"
-          dataKey="uploads"
-          name="Uploads"
-          stroke="#22C55E"
-          strokeWidth={2}
-          dot={false}
-        />
-        <Line
-          type="monotone"
-          dataKey="flashcards"
-          name="Flashcards"
-          stroke="#3B82F6"
-          strokeWidth={2}
-          dot={false}
-        />
-        <Line
-          type="monotone"
-          dataKey="quizzes"
-          name="Quizzes"
-          stroke="#A855F7"
-          strokeWidth={2}
-          dot={false}
-        />
-      </LineChart>
+          <LineChart data={chartData} margin={{ top: 8, right: 8, left: -16, bottom: 4 }}>
+            <CartesianGrid strokeDasharray="3 3" stroke={chartTheme.colors.grid} />
+            <XAxis
+              dataKey="date"
+              tick={{ fill: chartTheme.colors.axisText, fontSize: 10 }}
+              axisLine={{ stroke: chartTheme.colors.grid }}
+              tickLine={{ stroke: chartTheme.colors.grid }}
+              interval="preserveStartEnd"
+            />
+            <YAxis
+              tick={{ fill: chartTheme.colors.axisText, fontSize: 10 }}
+              axisLine={{ stroke: chartTheme.colors.grid }}
+              tickLine={{ stroke: chartTheme.colors.grid }}
+              width={35}
+            />
+            <Tooltip
+              contentStyle={chartTheme.tooltipStyle}
+              labelStyle={{ color: chartTheme.colors.tooltipText, fontWeight: "bold" }}
+              itemStyle={{ color: chartTheme.colors.tooltipText }}
+            />
+            <Legend
+              verticalAlign="bottom"
+              iconType="circle"
+              iconSize={8}
+              wrapperStyle={{ color: chartTheme.colors.axisText, fontSize: 11, paddingTop: 4 }}
+            />
+            <Line
+              type="monotone"
+              dataKey="uploads"
+              name="Uploads"
+              stroke="#22C55E"
+              strokeWidth={2}
+              dot={false}
+            />
+            <Line
+              type="monotone"
+              dataKey="flashcards"
+              name="Flashcards"
+              stroke="#3B82F6"
+              strokeWidth={2}
+              dot={false}
+            />
+            <Line
+              type="monotone"
+              dataKey="quizzes"
+              name="Quizzes"
+              stroke="#A855F7"
+              strokeWidth={2}
+              dot={false}
+            />
+          </LineChart>
         </ResponsiveContainer>
       </div>
     </section>
