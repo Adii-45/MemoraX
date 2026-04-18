@@ -11,6 +11,52 @@ import {
 } from "recharts";
 import { chartTheme } from "./chartTheme";
 
+const CustomTooltip = ({ active, payload }) => {
+  if (active && payload && payload.length) {
+    const data = payload[0].payload;
+    const dateStr = data.completedAt
+      ? new Date(data.completedAt).toLocaleDateString("en-US", {
+          month: "short",
+          day: "numeric",
+          year: "numeric",
+        })
+      : null;
+
+    let scoreColor = "#22C55E";
+    if (data.score <= 40) scoreColor = "#EF4444";
+    else if (data.score <= 70) scoreColor = "#F59E0B";
+
+    return (
+      <div
+        style={{
+          ...chartTheme.tooltipStyle,
+          minWidth: "130px",
+        }}
+      >
+        <p style={{ color: "#fff", margin: 0, fontWeight: 600, fontSize: "12px" }}>
+          {data.attempt || "Quiz"}
+        </p>
+        {dateStr && (
+          <p style={{ color: "#a3a3a3", margin: "4px 0 0", fontSize: "11px" }}>
+            {dateStr}
+          </p>
+        )}
+        <p
+          style={{
+            color: scoreColor,
+            margin: "4px 0 0",
+            fontWeight: 600,
+            fontSize: "13px",
+          }}
+        >
+          Score: {data.score}%
+        </p>
+      </div>
+    );
+  }
+  return null;
+};
+
 const QuizPerformanceChart = ({ data }) => {
   const processedData = (data || []).map((entry, index) => ({
     ...entry,
@@ -19,13 +65,14 @@ const QuizPerformanceChart = ({ data }) => {
 
   return (
     <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
-      <BarChart data={processedData} margin={{ top: 8, right: 16, left: -6, bottom: 8 }}>
+      <BarChart data={processedData} margin={{ top: 8, right: 16, left: -6, bottom: 0 }}>
         <CartesianGrid strokeDasharray="3 3" stroke={chartTheme.colors.grid} />
         <XAxis
           dataKey="uniqueAttempt"
-          tick={{ fill: chartTheme.colors.axisText, fontSize: 11 }}
-          axisLine={{ stroke: chartTheme.colors.grid }}
-          tickLine={{ stroke: chartTheme.colors.grid }}
+          tick={false}
+          axisLine={false}
+          tickLine={false}
+          height={4}
         />
         <YAxis
           domain={[0, 100]}
@@ -36,11 +83,7 @@ const QuizPerformanceChart = ({ data }) => {
         />
         <Tooltip
           cursor={{ fill: "rgba(255, 255, 255, 0.05)" }}
-          contentStyle={chartTheme.tooltipStyle}
-          labelStyle={{ color: chartTheme.colors.tooltipText, fontWeight: "bold" }}
-          itemStyle={{ color: chartTheme.colors.tooltipText }}
-          formatter={(value) => [`${value}%`, "Score"]}
-          labelFormatter={(label) => label}
+          content={<CustomTooltip />}
         />
         <Bar dataKey="score" radius={[4, 4, 0, 0]}>
           {processedData.map((entry, index) => {

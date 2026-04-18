@@ -128,7 +128,7 @@ const DashboardPage = () => {
           <ActivityChart data={dashboardData.studyActivity} />
         </div>
 
-        <AnalyticsCard title="Quiz Performance" subtitle="Score per attempt" className="lg:col-span-1">
+        <AnalyticsCard title="Quiz Performance" subtitle="Score per attempt" className="lg:col-span-1" height="h-64 sm:h-80">
           <QuizPerformanceChart data={dashboardData.quizPerformance} />
         </AnalyticsCard>
       </div>

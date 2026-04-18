@@ -77,6 +77,7 @@ export const getDashboard = async (req, res, next) => {
     const quizPerformance = last10Quizzes.map((q, index) => ({
       attempt: q.title || `Quiz ${index + 1}`,
       score: q.score,
+      completedAt: q.completedAt,
       subject: "Quiz", 
     }));
 
