@@ -43,6 +43,7 @@ router.post('/register', registerValidation, register);
 router.post('/login', loginValidation, login);
 
 // Protected routes 
+router.get('/me', protect, getProfile); // alias for auth check on app load
 router.get('/profile/:id', protect, getUserPublicProfile);
 router.get('/profile', protect, getProfile);
 router.put('/profile', protect, updateProfile);
