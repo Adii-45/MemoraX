@@ -81,15 +81,15 @@ export const getDashboard = async (req, res, next) => {
     }));
 
     // === Flashcard Stats ===
-    let mastered = 0;
-    let learning = 0;
-    let notStarted = 0;
+    let reviewedCards = 0;
+    let notReviewedCards = 0;
     
     flashcardSets.forEach(set => {
         set.cards.forEach(card => {
-            if (card.reviewCount === 0) notStarted++;
-            else if (card.reviewCount >= 3) mastered++;
-            else learning++;
+            // Use isReviewed if present, fall back to reviewCount for old cards
+            const wasReviewed = card.isReviewed === true || card.reviewCount > 0;
+            if (wasReviewed) reviewedCards++;
+            else notReviewedCards++;
         });
     });
 
@@ -150,7 +150,15 @@ export const getDashboard = async (req, res, next) => {
         averageScore,
         studyActivity,
         quizPerformance,
-        flashcardStats: { mastered, learning, notStarted },
+        flashcardStats: {
+          totalCards: totalFlashcards,
+          reviewedCards,
+          notReviewedCards,
+          // Backward-compatible fields
+          mastered: reviewedCards,
+          learning: 0,
+          notStarted: notReviewedCards,
+        },
         weeklyConsistency,
         featureUsage,
         recentActivity: {

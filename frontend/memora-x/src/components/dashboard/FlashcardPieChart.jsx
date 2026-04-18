@@ -33,18 +33,27 @@ const FlashcardPieChart = ({ data }) => {
   let totalCards = 0;
 
   if (Array.isArray(data)) {
+    // Raw card array (shouldn't happen from dashboard, but defensive)
     reviewedCount = data.filter((card) => {
-      if (card.reviewCount !== undefined) {
-        return card.reviewCount > 0;
-      }
-      return card.isReviewed === true;
+      if (card.isReviewed !== undefined) return card.isReviewed === true;
+      if (card.reviewCount !== undefined) return card.reviewCount > 0;
+      return false;
     }).length;
     notReviewedCount = data.length - reviewedCount;
     totalCards = data.length;
   } else if (data) {
-    reviewedCount = (data.mastered || 0) + (data.learning || 0);
-    notReviewedCount = data.notStarted || 0;
-    totalCards = reviewedCount + notReviewedCount;
+    // Stats object from API
+    if (data.reviewedCards !== undefined) {
+      // New API shape
+      reviewedCount = data.reviewedCards || 0;
+      notReviewedCount = data.notReviewedCards || 0;
+      totalCards = data.totalCards || (reviewedCount + notReviewedCount);
+    } else {
+      // Legacy API shape fallback
+      reviewedCount = (data.mastered || 0) + (data.learning || 0);
+      notReviewedCount = data.notStarted || 0;
+      totalCards = reviewedCount + notReviewedCount;
+    }
   }
 
   const chartData = [

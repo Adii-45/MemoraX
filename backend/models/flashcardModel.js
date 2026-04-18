@@ -36,6 +36,10 @@ const flashcardSchema = new mongoose.Schema({
         isStarred: {
             type: Boolean,
             default: false
+        },
+        isReviewed: {
+            type: Boolean,
+            default: false
         }
     }]
 }, {

@@ -49,6 +49,7 @@ export const generateFlashcards = async (req, res, next) => {
         answer: card.answer,
         difficulty: card.difficulty,
         reviewCount: 0,
+        isReviewed: false,
         isStarred: false,
       })),
     });
