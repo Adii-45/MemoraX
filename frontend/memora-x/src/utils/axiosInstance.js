@@ -31,7 +31,16 @@ axiosInstance.interceptors.response.use(
   },
   (error) => {
     if (error.response) {
-      if (error.response.status === 500) {
+      if (error.response.status === 401) {
+        // Token expired or invalid — auto-logout
+        // Skip for login/register endpoints (401 there means bad credentials, not expired token)
+        const url = error.config?.url || "";
+        if (!url.includes("/login") && !url.includes("/register")) {
+          localStorage.removeItem("token");
+          localStorage.removeItem("user");
+          window.location.href = "/";
+        }
+      } else if (error.response.status === 500) {
         console.error("Server error, Please try again later.");
       }
     } else if (error.code === "ECONNABORTED") {

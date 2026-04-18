@@ -1,4 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
+import axiosInstance from "../utils/axiosInstance";
+import { API_PATHS } from "../utils/apiPaths";
 
 const AuthContext = createContext();
 
@@ -22,19 +24,42 @@ export const AuthProvider = ({ children }) => {
   const checkAuthStatus = async () => {
     try {
       const token = localStorage.getItem("token");
-      const userStr = localStorage.getItem("user");
 
-      if (token && userStr) {
-        const userData = JSON.parse(userStr);
+      if (!token) {
+        // No token — clear everything and finish
+        setUser(null);
+        setIsAuthenticated(false);
+        setLoading(false);
+        return;
+      }
+
+      // Validate token against the server and refresh user data
+      const response = await axiosInstance.get(API_PATHS.AUTH.GET_PROFILE);
+
+      if (response.data?.success && response.data?.data) {
+        const userData = response.data.data;
+        localStorage.setItem("user", JSON.stringify(userData));
         setUser(userData);
         setIsAuthenticated(true);
+      } else {
+        // Unexpected response shape — treat as invalid
+        clearAuth();
       }
     } catch (error) {
-      console.error("Auth check failed: ", error);
-      logout();
+      console.error("Auth check failed:", error);
+      // Token is expired / invalid / server unreachable → clear silently
+      clearAuth();
     } finally {
       setLoading(false);
     }
+  };
+
+  /** Remove auth artifacts without triggering a redirect */
+  const clearAuth = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    setUser(null);
+    setIsAuthenticated(false);
   };
 
   const login = (userData, token) => {
@@ -46,11 +71,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-
-    setUser(null);
-    setIsAuthenticated(false);
+    clearAuth();
     window.location.href = "/";
   };
 
@@ -67,7 +88,7 @@ export const AuthProvider = ({ children }) => {
     login,
     logout,
     updateUser,
-    checkAuthStatus
+    checkAuthStatus,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -30,8 +30,31 @@ const App = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-screen bg-neutral-950">
-        <p className="text-neutral-300">Loading...</p>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "100vh",
+          backgroundColor: "#0a0a0a",
+          flexDirection: "column",
+          gap: "1rem",
+        }}
+      >
+        <div
+          style={{
+            width: "40px",
+            height: "40px",
+            border: "3px solid rgba(139, 92, 246, 0.2)",
+            borderTopColor: "#8b5cf6",
+            borderRadius: "50%",
+            animation: "spin 0.8s linear infinite",
+          }}
+        />
+        <p style={{ color: "#a3a3a3", fontSize: "0.875rem", margin: 0 }}>
+          Loading MemoraX…
+        </p>
+        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
       </div>
     );
   }
@@ -39,11 +62,9 @@ const App = () => {
   return (
     <Router>
       <Routes>
-        {/* ROOT - Landing Page */}
-        <Route path="/" element={<LandingPage />} />
-
-        {/* PUBLIC ROUTES */}
+        {/* ROOT - Landing Page (redirects to /dashboard if logged in) */}
         <Route element={<PublicRoute />}>
+          <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
         </Route>
@@ -72,3 +93,4 @@ const App = () => {
 };
 
 export default App;
+
