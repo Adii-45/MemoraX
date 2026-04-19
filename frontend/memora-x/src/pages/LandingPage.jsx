@@ -442,7 +442,7 @@ const LandingPage = () => {
           {/* Testimonials */}
           <motion.div className="grid md:grid-cols-3 gap-6" variants={staggerContainer}>
             {/* Testimonial 1 */}
-            <motion.div variants={fadeUpVariant} className="bg-white/5 backdrop-blur-md p-8 rounded-2xl border border-white/10 hover:-translate-y-2 transition-transform duration-300">
+            <motion.div variants={fadeUpVariant} className="group bg-white/5 backdrop-blur-md p-8 rounded-2xl border border-white/10 hover:-translate-y-2 transition-transform duration-300">
               <div className="flex items-center gap-1 mb-6">
                 {[1, 2, 3, 4, 5].map((i) => (
                   <Star key={i} className="w-4 h-4 fill-blue-500 text-blue-500 opacity-80" />
@@ -452,7 +452,13 @@ const LandingPage = () => {
                 "MemoraX completely changed how I study. I use to spend hours just reviewing flashcards; now I just upload my slides and immediately start testing myself."
               </p>
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-neutral-800 rounded-full ring-2 ring-blue-500/30"></div>
+                <div className="w-10 h-10 rounded-full overflow-hidden border border-white/10 bg-white/5 group-hover:scale-105 transition-transform duration-300">
+                  <img
+                    src="https://api.dicebear.com/7.x/adventurer/svg?seed=Sarah"
+                    alt="Sarah Chen"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
                 <div>
                   <div className="font-bold text-white text-sm">Sarah Chen</div>
                   <div className="text-blue-400 text-xs font-medium tracking-wide">Medical Student</div>
@@ -461,7 +467,7 @@ const LandingPage = () => {
             </motion.div>
 
             {/* Testimonial 2 */}
-            <motion.div variants={fadeUpVariant} className="bg-white/5 backdrop-blur-md p-8 rounded-2xl border border-white/10 hover:-translate-y-2 transition-transform duration-300">
+            <motion.div variants={fadeUpVariant} className="group bg-white/5 backdrop-blur-md p-8 rounded-2xl border border-white/10 hover:-translate-y-2 transition-transform duration-300">
               <div className="flex items-center gap-1 mb-6">
                 {[1, 2, 3, 4, 5].map((i) => (
                   <Star key={i} className="w-4 h-4 fill-blue-500 text-blue-500 opacity-80" />
@@ -471,7 +477,13 @@ const LandingPage = () => {
                 "I've tried countless studying apps, but the workflow here is genuinely different. The AI is shockingly good at picking up nuanced legal definitions."
               </p>
               <div className="flex items-center gap-4">
-                 <div className="w-12 h-12 bg-neutral-800 rounded-full ring-2 ring-blue-500/30"></div>
+                <div className="w-10 h-10 rounded-full overflow-hidden border border-white/10 bg-white/5 group-hover:scale-105 transition-transform duration-300">
+                  <img
+                    src="https://api.dicebear.com/7.x/adventurer/svg?seed=James"
+                    alt="James Miller"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
                 <div>
                   <div className="font-bold text-white text-sm">James Miller</div>
                   <div className="text-blue-400 text-xs font-medium tracking-wide">Law Student</div>
@@ -480,7 +492,7 @@ const LandingPage = () => {
             </motion.div>
 
             {/* Testimonial 3 */}
-            <motion.div variants={fadeUpVariant} className="bg-white/5 backdrop-blur-md p-8 rounded-2xl border border-white/10 hover:-translate-y-2 transition-transform duration-300">
+            <motion.div variants={fadeUpVariant} className="group bg-white/5 backdrop-blur-md p-8 rounded-2xl border border-white/10 hover:-translate-y-2 transition-transform duration-300">
               <div className="flex items-center gap-1 mb-6">
                 {[1, 2, 3, 4, 5].map((i) => (
                   <Star key={i} className="w-4 h-4 fill-blue-500 text-blue-500 opacity-80" />
@@ -490,7 +502,13 @@ const LandingPage = () => {
                 "Finally, an application that understands the burden of STEM. It makes dense engineering PDFs actionable and lets me focus purely on problem-solving."
               </p>
               <div className="flex items-center gap-4">
-                 <div className="w-12 h-12 bg-neutral-800 rounded-full ring-2 ring-blue-500/30"></div>
+                <div className="w-10 h-10 rounded-full overflow-hidden border border-white/10 bg-white/5 group-hover:scale-105 transition-transform duration-300">
+                  <img
+                    src="https://api.dicebear.com/7.x/adventurer/svg?seed=Priya"
+                    alt="Priya Patel"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
                 <div>
                   <div className="font-bold text-white text-sm">Priya Patel</div>
                   <div className="text-blue-400 text-xs font-medium tracking-wide">Engineering Major</div>
