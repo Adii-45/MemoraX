@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Plus } from 'lucide-react';
 import flashcardService from '../../services/flashcardService';
 import PageHeader from "../../components/common/PageHeader";
 import Spinner from '../../components/common/Spinner';
 import EmptyState from '../../components/common/EmptyState';
 import FlashcardSetCard from "../../components/flashcards/FlashcardSetCard";
+import DocumentSelectModal from "../../components/common/DocumentSelectModal";
 import toast from 'react-hot-toast';
 
 const FlashcardsListPage = () => {
@@ -11,7 +14,9 @@ const FlashcardsListPage = () => {
   const [loading, setLoading] = useState(true);
 
   // ✅ NEW STATES
+  const [showModal, setShowModal] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+  const navigate = useNavigate();
   const [selectedId, setSelectedId] = useState(null);
   const [deleting, setDeleting] = useState(false);
 
@@ -56,6 +61,11 @@ const FlashcardsListPage = () => {
     }
   };
 
+  const handleProceed = (doc) => {
+    setShowModal(false);
+    navigate(`/documents/${doc._id}?tab=flashcards&generate=true`);
+  };
+
   const renderContent = () => {
     if (loading) return <Spinner />;
 
@@ -83,7 +93,14 @@ const FlashcardsListPage = () => {
 
   return (
     <div>
-      <PageHeader title="All Flashcard Sets" />
+      <PageHeader title="All Flashcard Sets">
+        <button
+          onClick={() => setShowModal(true)}
+          className="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg flex items-center gap-2 shadow-md hover:shadow-blue-500/20 transition"
+        >
+          <Plus className="w-4 h-4" /> New Flashcards
+        </button>
+      </PageHeader>
 
       {renderContent()}
 
@@ -118,6 +135,14 @@ const FlashcardsListPage = () => {
           </div>
         </div>
       )}
+
+      {/* Document Selection Modal */}
+      <DocumentSelectModal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        onProceed={handleProceed}
+        title="Select a Document for Flashcards"
+      />
     </div>
   );
 };

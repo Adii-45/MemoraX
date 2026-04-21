@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Plus, Trash2, Brain, ArrowLeft } from "lucide-react";
 import toast from "react-hot-toast";
 import moment from "moment";
@@ -20,6 +21,10 @@ const FlashCardManager = ({ documentId }) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [setToDelete, setSetToDelete] = useState(null);
+
+  const location = useLocation();
+  const navigate = useNavigate();
+  const hasHandledGenerate = useRef(false);
 
   const fetchFlashcardsSets = async () => {
     setLoading(true);
@@ -50,6 +55,20 @@ const FlashCardManager = ({ documentId }) => {
       setGenerating(false);
     }
   };
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    if (params.get("generate") === "true" && documentId && !hasHandledGenerate.current) {
+      if (params.get("tab") === "flashcards") {
+        hasHandledGenerate.current = true;
+        // Remove generate from URL to prevent infinite loops
+        params.delete("generate");
+        navigate({ search: params.toString() }, { replace: true });
+        
+        handleGenerateFlashcards();
+      }
+    }
+  }, [documentId, location.search, navigate]);
 
   const handToggleStar = async (cardId) => {
     try {
@@ -181,9 +200,9 @@ const FlashCardManager = ({ documentId }) => {
             <button
               onClick={handleGenerateFlashcards}
               disabled={generating}
-              className="bg-gradient-to-r from-primary to-primary-dark text-white px-4 h-10 rounded-xl"
+              className="bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 text-white px-4 h-10 rounded-xl transition-all"
             >
-              {generating ? "Generating..." : "Generate"}
+              {generating ? "Generating..." : "Generate More"}
             </button>
           </div>
 

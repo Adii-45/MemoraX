@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useLocation } from "react-router-dom";
 import documentService from "../../services/documentService";
 import Spinner from "../../components/common/Spinner";
 import toast from "react-hot-toast";
@@ -13,9 +13,16 @@ import QuizManager from "../../components/quizzes/QuizManager";
 
 const DocumentDetailPage = () => {
   const { id } = useParams();
+  const location = useLocation();
   const [document, setDocument] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState("Content");
+  const [activeTab, setActiveTab] = useState(() => {
+    const params = new URLSearchParams(location.search);
+    const tabParam = params.get("tab");
+    if (tabParam === "flashcards") return "Flashcards";
+    if (tabParam === "quizzes") return "Quizzes";
+    return "Content";
+  });
 
   useEffect(() => {
     const fetchDocumentDetails = async () => {

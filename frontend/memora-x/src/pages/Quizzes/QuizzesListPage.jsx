@@ -8,6 +8,7 @@ import {
   CheckCircle2,
   HelpCircle,
   Play,
+  Plus,
 } from "lucide-react";
 import moment from "moment";
 import toast from "react-hot-toast";
@@ -16,10 +17,13 @@ import documentService from "../../services/documentService";
 import quizService from "../../services/quizService";
 import PageHeader from "../../components/common/PageHeader";
 import Spinner from "../../components/common/Spinner";
+import DocumentSelectModal from "../../components/common/DocumentSelectModal";
 
 const QuizzesListPage = () => {
   const [quizzes, setQuizzes] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [documents, setDocuments] = useState([]);
+  const [showModal, setShowModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedQuiz, setSelectedQuiz] = useState(null);
   const navigate = useNavigate();
@@ -29,10 +33,11 @@ const QuizzesListPage = () => {
       try {
         // 1. Get all documents
         const docResponse = await documentService.getDocuments();
-        const documents = docResponse.data || [];
+        const docs = docResponse.data || [];
+        setDocuments(docs);
 
         // 2. Fetch quizzes for each document and flatten
-        const quizPromises = documents.map(async (doc) => {
+        const quizPromises = docs.map(async (doc) => {
           try {
             const quizResponse = await quizService.getQuizzesForDocument(
               doc._id
@@ -96,6 +101,11 @@ const QuizzesListPage = () => {
     } else {
       navigate(`/quizzes/${quiz._id}`);
     }
+  };
+
+  const handleProceed = (doc) => {
+    setShowModal(false);
+    navigate(`/documents/${doc._id}?tab=quizzes&generate=true`);
   };
 
   const getScoreInfo = (quiz) => {
@@ -247,7 +257,14 @@ const QuizzesListPage = () => {
         <PageHeader
           title="My Quizzes"
           subtitle="View and manage all your quizzes"
-        />
+        >
+          <button
+            onClick={() => setShowModal(true)}
+            className="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg flex items-center gap-2 shadow-md hover:shadow-blue-500/20 transition"
+          >
+            <Plus className="w-4 h-4" /> New Quiz
+          </button>
+        </PageHeader>
 
         {/* Content */}
         {loading ? (
@@ -290,6 +307,15 @@ const QuizzesListPage = () => {
           </div>
         </div>
       )}
+
+      {/* Document Selection Modal */}
+      <DocumentSelectModal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        onProceed={handleProceed}
+        title="Select a Document for Quiz"
+        documents={documents}
+      />
     </div>
   );
 };

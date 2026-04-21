@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Plus, Trash2 } from "lucide-react";
 import toast from "react-hot-toast";
 
@@ -20,6 +21,10 @@ const QuizManager = ({ documentId }) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [selectedQuiz, setSelectedQuiz] = useState(null);
+
+  const location = useLocation();
+  const navigate = useNavigate();
+  const hasHandledGenerate = useRef(false);
 
   const fetchQuizzes = async () => {
     setLoading(true);
@@ -54,6 +59,20 @@ const QuizManager = ({ documentId }) => {
       setGenerating(false);
     }
   };
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    if (params.get("generate") === "true" && documentId && !hasHandledGenerate.current) {
+      if (params.get("tab") === "quizzes") {
+        hasHandledGenerate.current = true;
+        // Remove generate from URL to prevent infinite loops
+        params.delete("generate");
+        navigate({ search: params.toString() }, { replace: true });
+
+        setIsGenerateModalOpen(true);
+      }
+    }
+  }, [documentId, location.search, navigate]);
 
   const handleDeleteRequest = (quiz) => {
     setSelectedQuiz(quiz);
@@ -107,14 +126,13 @@ const QuizManager = ({ documentId }) => {
   return (
     <div className="bg-neutral-900 border border-neutral-800 rounded-lg p-6">
       <div className="flex justify-end gap-2 mb-4">
-        <Button
-          onClick={() => {
-            setIsGenerateModalOpen(true);
-          }}
+        <button
+          onClick={() => setIsGenerateModalOpen(true)}
+          className="flex items-center gap-2 bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 text-white px-4 h-10 rounded-lg text-sm transition-all"
         >
           <Plus size={16} />
-          Generate Quiz
-        </Button>
+          Generate More
+        </button>
       </div>
 
       {renderQuizContent()}
