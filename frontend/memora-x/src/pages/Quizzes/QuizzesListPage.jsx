@@ -20,6 +20,8 @@ import Spinner from "../../components/common/Spinner";
 const QuizzesListPage = () => {
   const [quizzes, setQuizzes] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [selectedQuiz, setSelectedQuiz] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -67,12 +69,24 @@ const QuizzesListPage = () => {
     fetchAllQuizzes();
   }, []);
 
-  const handleDelete = (e, quizId) => {
+  const handleDeleteClick = (e, quiz) => {
     e.stopPropagation();
-    console.log("Delete quiz", quizId);
-    // UI-only removal
-    setQuizzes((prev) => prev.filter((q) => q._id !== quizId));
+    setSelectedQuiz(quiz);
+    setShowDeleteModal(true);
+  };
+
+  const confirmDelete = () => {
+    if (!selectedQuiz) return;
+    console.log("Deleting quiz:", selectedQuiz._id);
+    setQuizzes((prev) => prev.filter((q) => q._id !== selectedQuiz._id));
     toast.success("Quiz removed");
+    setShowDeleteModal(false);
+    setSelectedQuiz(null);
+  };
+
+  const cancelDelete = () => {
+    setShowDeleteModal(false);
+    setSelectedQuiz(null);
   };
 
   const handleCardClick = (quiz) => {
@@ -137,7 +151,7 @@ const QuizzesListPage = () => {
 
             {/* Delete Button — hidden by default, fades in on hover */}
             <button
-              onClick={(e) => handleDelete(e, quiz._id)}
+              onClick={(e) => handleDeleteClick(e, quiz)}
               className="opacity-0 group-hover:opacity-100 p-2 rounded-md text-neutral-400 hover:text-red-400 hover:bg-red-500/10 transition-all duration-200"
             >
               <Trash2 className="w-4 h-4" strokeWidth={2} />
@@ -248,6 +262,34 @@ const QuizzesListPage = () => {
           </div>
         )}
       </div>
+
+      {/* Delete Confirmation Modal */}
+      {showDeleteModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+          <div className="bg-neutral-900 border border-white/10 rounded-xl p-6 w-full max-w-md shadow-xl">
+            <h2 className="text-lg font-semibold text-white">
+              Delete Quiz
+            </h2>
+            <p className="text-sm text-neutral-400 mt-2">
+              Are you sure you want to delete this quiz? This action cannot be undone.
+            </p>
+            <div className="flex justify-end gap-3 mt-6">
+              <button
+                onClick={cancelDelete}
+                className="px-4 py-2 rounded-lg text-sm font-medium text-neutral-400 hover:text-white hover:bg-neutral-800 transition-all duration-200"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={confirmDelete}
+                className="px-4 py-2 rounded-lg text-sm font-semibold bg-red-500 hover:bg-red-600 text-white transition-all duration-200"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
