@@ -16,6 +16,7 @@ const DocumentListPage = () => {
   const [uploadFile, setUploadFile] = useState(null);
   const [uploadTitle, setUploadTitle] = useState("");
   const [uploading, setUploading] = useState(false);
+  const [duplicateError, setDuplicateError] = useState("");
 
   // State for delete confirmation modal
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -38,12 +39,40 @@ const DocumentListPage = () => {
     fetchDocuments();
   }, []);
 
+  // Check if a document title already exists (case-insensitive, trimmed)
+  const checkDuplicate = (title) => {
+    const normalizedTitle = title?.toLowerCase().trim();
+    if (!normalizedTitle) {
+      setDuplicateError("");
+      return false;
+    }
+    const existingNames = documents.map((doc) =>
+      (doc.title || doc.name || "").toLowerCase().trim()
+    );
+    if (existingNames.includes(normalizedTitle)) {
+      setDuplicateError(
+        "A document with this name already exists. Please rename your file."
+      );
+      return true;
+    }
+    setDuplicateError("");
+    return false;
+  };
+
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       setUploadFile(file);
-      setUploadTitle(file.name.replace(/\.[^/.]+$/, ""));
+      const title = file.name.replace(/\.[^/.]+$/, "");
+      setUploadTitle(title);
+      checkDuplicate(title);
     }
+  };
+
+  const handleTitleChange = (e) => {
+    const title = e.target.value;
+    setUploadTitle(title);
+    checkDuplicate(title);
   };
 
   const handleUpload = async (e) => {
@@ -51,6 +80,11 @@ const DocumentListPage = () => {
 
     if (!uploadFile || !uploadTitle) {
       toast.error("Please provide a title and select a file");
+      return;
+    }
+
+    // Block upload if duplicate
+    if (checkDuplicate(uploadTitle)) {
       return;
     }
 
@@ -68,6 +102,7 @@ const DocumentListPage = () => {
       setIsUploadModalOpen(false);
       setUploadFile(null);
       setUploadTitle("");
+      setDuplicateError("");
 
       await fetchDocuments(); // ✅ WAIT FOR REFRESH
     } catch (error) {
@@ -203,7 +238,7 @@ const DocumentListPage = () => {
                 <input
                   type="text"
                   value={uploadTitle}
-                  onChange={(e) => setUploadTitle(e.target.value)}
+                  onChange={handleTitleChange}
                   required
                   className="w-full h-12 px-2 border-2 border-neutral-800 rounded-xl bg-neutral-950 text-white placeholder-neutral-600 text-sm font-medium transition-all duration-200 focus:outline-none focus:border-neutral-600 focus:bg-neutral-950"
                   placeholder="e.g., React Interview Prep"
@@ -246,6 +281,13 @@ const DocumentListPage = () => {
                 </div>
               </div>
 
+              {/* Duplicate Error Message */}
+              {duplicateError && (
+                <p className="text-red-400 text-sm font-medium -mt-1">
+                  {duplicateError}
+                </p>
+              )}
+
               {/* {Action Buttons} */}
               <div className="flex gap-3 pt-2">
                 <button
@@ -258,9 +300,9 @@ const DocumentListPage = () => {
                 </button>
                 <Button
                   type="submit"
-                  disabled={uploading}
+                  disabled={uploading || !!duplicateError}
                   variant="primary"
-                  className="flex-1"
+                  className={`flex-1${duplicateError ? " opacity-50 cursor-not-allowed" : ""}`}
                 >
                   {uploading ? (
                     <span className="flex items-center justify-center gap-2">
