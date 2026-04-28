@@ -3,13 +3,14 @@ import { useParams, Link, useLocation } from "react-router-dom";
 import documentService from "../../services/documentService";
 import Spinner from "../../components/common/Spinner";
 import toast from "react-hot-toast";
-import { ArrowLeft, ExternalLink } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import PageHeader from "../../components/common/PageHeader";
 import Tabs from "../../components/common/Tabs";
 import ChatInterface from "../../components/chat/ChatInterface";
 import AIActions from "../../components/ai/AIActions";
 import FlashCardManager from "../../components/flashcards/FlashCardManager";
 import QuizManager from "../../components/quizzes/QuizManager";
+import PDFAnnotationViewer from "../../components/annotations/PDFAnnotationViewer";
 
 const DocumentDetailPage = () => {
   const { id } = useParams();
@@ -80,34 +81,12 @@ const DocumentDetailPage = () => {
 
     const pdfUrl = document ? getPdfUrl() : null;
 
+    if (!pdfUrl) {
+      return <div className="text-center p-8 text-neutral-400">PDF not available</div>;
+    }
+
     return (
-      <div className="bg-neutral-900 border border-neutral-800 rounded-lg overflow-hidden">
-        <div className="flex items-center justify-between p-4 bg-neutral-900/50 border-b border-neutral-800">
-          <span className="text-sm font-medium text-neutral-300">
-            Document Viewer
-          </span>
-          <a
-            href={pdfUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 text-sm text-blue-600 hover:text-blue-700 font-medium transition-colors"
-          >
-            <ExternalLink size={16} />
-            Open in new tab
-          </a>
-        </div>
-        {pdfUrl ? (
-          <iframe
-            src={`https://docs.google.com/gview?url=${encodeURIComponent(
-              pdfUrl
-            )}&embedded=true`}
-            className="w-full h-[70vh] bg-neutral-950"
-            title="PDF Viewer"
-          />
-        ) : (
-          <div className="text-center p-8 text-neutral-400">PDF not available</div>
-        )}
-      </div>
+      <PDFAnnotationViewer pdfUrl={pdfUrl} documentId={id} />
     );
   };
 
