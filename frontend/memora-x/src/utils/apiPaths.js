@@ -71,4 +71,8 @@ export const API_PATHS = {
     GET_SETTINGS: "/api/notifications/settings",
     UPDATE_SETTINGS: "/api/notifications/settings",
   },
+  ANNOTATIONS: {
+    GET: (documentId) => `/api/annotations/${documentId}`,
+    SAVE: (documentId) => `/api/annotations/${documentId}`,
+  },
 };
