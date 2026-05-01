@@ -1,6 +1,6 @@
 # MemoraX
 
-AI-powered smart study assistant that transforms documents into flashcards, quizzes, summaries, analytics, and contextual AI chat.
+AI-powered smart study assistant that transforms documents into flashcards, quizzes, summaries, analytics, contextual AI chat, and interactive annotations.
 
 ---
 
@@ -14,6 +14,7 @@ Users can upload documents and instantly generate:
 - Summaries
 - AI-powered chat responses
 - Performance analytics dashboard
+- Interactive PDF annotations
 
 ---
 
@@ -30,7 +31,9 @@ Users can upload documents and instantly generate:
 ---
 
 ### 📄 Document Processing
-- Upload PDF documents
+- Upload PDF documents (single + multiple upload support)
+- Editable document titles before upload
+- Duplicate document name prevention (frontend validation)
 - Automatic text extraction
 - Intelligent chunking
 - Cloud storage support
@@ -52,6 +55,7 @@ Users can upload documents and instantly generate:
 - Difficulty tagging
 - Star / unstar
 - Review tracking
+- Centralized flashcard manager (across all documents)
 
 ---
 
@@ -61,6 +65,18 @@ Users can upload documents and instantly generate:
 - Attempt tracking
 - Result storage
 - Performance-based analytics
+- Centralized flashcard & quiz manager (across all documents)
+
+---
+
+### 🖊️ PDF Annotation System (NEW)
+- Draw on PDFs (pen tool)
+- Highlighter tool
+- Eraser functionality
+- Undo / Redo support
+- Color selection & stroke control
+- Collapsible annotation toolbar
+- Save annotations (persisted per document)
 
 ---
 
@@ -79,6 +95,7 @@ Users can upload documents and instantly generate:
 - Dark theme across app
 - Recharts-powered analytics
 - Clean SaaS-style dashboard layout
+- Interactive modals & smooth transitions
 
 ---
 
@@ -103,6 +120,7 @@ Users can upload documents and instantly generate:
 - Recharts (analytics)
 - React Hot Toast
 - Lucide Icons
+- React Konva (PDF annotations)
 
 ---
 
@@ -123,9 +141,12 @@ MEMORAX
 │   │
 │   ├── controllers
 │   │   ├── aiController.js
+│   │   ├── annotationController.js
 │   │   ├── authController.js
+│   │   ├── communityController.js
 │   │   ├── documentController.js
 │   │   ├── flashcardController.js
+│   │   ├── notificationController.js
 │   │   ├── progressController.js
 │   │   └── quizController.js
 │   │
@@ -135,25 +156,32 @@ MEMORAX
 │   │   └── upload.js
 │   │
 │   ├── models
-│   │   ├── userModel.js
+│   │   ├── annotationModel.js
+│   │   ├── chatHistoryModel.js
+│   │   ├── commentModel.js
 │   │   ├── documentModel.js
 │   │   ├── flashcardModel.js
+│   │   ├── notificationModel.js
+│   │   ├── postModel.js
 │   │   ├── quizModel.js
-│   │   └── chatHistoryModel.js
+│   │   └── userModel.js
 │   │
 │   ├── routes
 │   │   ├── aiRoutes.js
+│   │   ├── annotationRoutes.js
 │   │   ├── authRoutes.js
+│   │   ├── communityRoutes.js
 │   │   ├── documentRoutes.js
 │   │   ├── flashcardRoutes.js
+│   │   ├── notificationRoutes.js
 │   │   ├── progressRoutes.js
 │   │   └── quizRoutes.js
 │   │
-│   ├── uploads
-│   │   └── documents
-│   │
 │   ├── utils
+│   │   ├── fixShareIds.js
 │   │   ├── geminiService.js
+│   │   ├── migrateFlashcardReviewed.js
+│   │   ├── notificationHelper.js
 │   │   ├── pdfParser.js
 │   │   └── textChunker.js
 │   │
@@ -162,53 +190,59 @@ MEMORAX
 │   └── package.json
 │
 └── frontend/memora-x
-    ├── public
-    ├── src
-    │   ├── assets
-    │   ├── components
-    │   │   ├── ai
-    │   │   ├── auth
-    │   │   ├── chat
-    │   │   ├── common
-    │   │   ├── dashboard
-    │   │   ├── documents
-    │   │   ├── flashcards
-    │   │   ├── layout
-    │   │   └── quizzes
-    │   │
-    │   ├── context
-    │   │   └── AuthContext.jsx
-    │   │
-    │   ├── pages
-    │   │   ├── Auth
-    │   │   ├── Dashboard
-    │   │   ├── Documents
-    │   │   ├── FlashCards
-    │   │   ├── Profile
-    │   │   ├── Quizzes
-    │   │   ├── LandingPage.jsx
-    │   │   └── NotFoundPage.jsx
-    │   │
-    │   ├── services
-    │   │   ├── aiService.js
-    │   │   ├── authService.js
-    │   │   ├── documentService.js
-    │   │   ├── flashcardService.js
-    │   │   ├── progressService.js
-    │   │   └── quizService.js
-    │   │
-    │   ├── utils
-    │   │   ├── apiPaths.js
-    │   │   └── axiosInstance.js
-    │   │
-    │   ├── App.jsx
-    │   ├── main.jsx
-    │   └── index.css
-    │
-    ├── .env
-    ├── tailwind.config.js
-    ├── vite.config.js
-    └── package.json
+├── src
+│   ├── assets
+│   ├── components
+│   │   ├── ai
+│   │   ├── annotations
+│   │   ├── auth
+│   │   ├── chat
+│   │   ├── common
+│   │   ├── community
+│   │   ├── dashboard
+│   │   ├── documents
+│   │   ├── flashcards
+│   │   ├── layout
+│   │   └── quizzes
+│   │
+│   ├── context
+│   │   └── AuthContext.jsx
+│   │
+│   ├── pages
+│   │   ├── Auth
+│   │   ├── Community
+│   │   ├── Dashboard
+│   │   ├── Documents
+│   │   ├── FlashCards
+│   │   ├── Profile
+│   │   ├── Quizzes
+│   │   ├── LandingPage.jsx
+│   │   └── NotFoundPage.jsx
+│   │
+│   ├── services
+│   │   ├── aiService.js
+│   │   ├── annotationService.js
+│   │   ├── authService.js
+│   │   ├── communityService.js
+│   │   ├── documentService.js
+│   │   ├── flashcardService.js
+│   │   ├── notificationService.js
+│   │   ├── progressService.js
+│   │   └── quizService.js
+│   │
+│   ├── utils
+│   │   ├── apiPaths.js
+│   │   ├── axiosInstance.js
+│   │   └── timeAgo.js
+│   │
+│   ├── App.jsx
+│   ├── main.jsx
+│   └── index.css
+│
+├── .env
+├── tailwind.config.js
+├── vite.config.js
+└── package.json
 ```
 
 ---
